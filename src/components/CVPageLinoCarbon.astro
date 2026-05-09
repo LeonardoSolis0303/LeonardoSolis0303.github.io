@@ -1,0 +1,200 @@
+---
+import type { Lang } from '../lib/i18n';
+import { t } from '../lib/i18n';
+import { data, g, arr } from '../lib/site';
+
+interface Props { lang: Lang; }
+const { lang } = Astro.props;
+const ui = t(lang);
+const cv: any = data.CV;
+const cvSkills = Object.entries(lang === 'en' ? cv.skills_en : cv.skills).map(([name, values]: any) => ({ name, values }));
+const title = g(cv, 'title', lang);
+const tagline = g(cv, 'tagline', lang);
+const downloadLabel = ui.cv.download;
+const cityLabel = lang === 'en' ? 'city' : 'ciudad';
+const contactEntries = [
+  { key: 'email', label: 'email', value: cv.contact?.email, href: cv.contact?.email ? `mailto:${cv.contact.email}` : null },
+  { key: 'github', label: 'github', value: cv.contact?.github, href: cv.contact?.github ? `https://${cv.contact.github.replace(/^https?:\/\//, '')}` : null },
+  { key: 'linkedin', label: 'linkedin', value: cv.contact?.linkedin, href: cv.contact?.linkedin ? `https://${cv.contact.linkedin.replace(/^https?:\/\//, '')}` : null },
+  { key: 'ciudad', label: cityLabel, value: cv.contact?.ciudad, href: null },
+].filter((x) => x.value);
+---
+
+<article class="cv2" aria-labelledby="cv-title">
+  <header class="cv2__header">
+    <div class="cv2__stripe" aria-hidden="true"></div>
+    <div class="cv2__identity">
+      <p class="cv2__tagline">{tagline}</p>
+      <h1 id="cv-title" class="cv2__name">Leonardo <span>Solis</span></h1>
+      <div class="cv2__roleline">
+        <p>{title}</p>
+        <i aria-hidden="true"></i>
+        <p class="cv2__affiliation">UNAM · Fac. Ciencias · 2022</p>
+      </div>
+    </div>
+
+    <div class="cv2__contact" aria-label={lang === 'en' ? 'Contact information' : 'Información de contacto'}>
+      {contactEntries.map((item) => (
+        <div class="cv2__contact-item">
+          <span>{item.label}</span>
+          {item.href ? <a href={item.href} target={item.key === 'email' ? undefined : '_blank'} rel={item.key === 'email' ? undefined : 'noreferrer'}>{item.value}</a> : <strong>{item.value}</strong>}
+        </div>
+      ))}
+    </div>
+  </header>
+
+  <div class="cv2__body">
+    <div class="cv2__stripe cv2__stripe--body" aria-hidden="true"></div>
+
+    <main class="cv2__column cv2__column--main">
+      <section class="cv2__section">
+        <div class="cv2__section-title"><h2>{ui.cv.education}</h2><div aria-hidden="true"></div></div>
+        {cv.education.map((item) => (
+          <div class="cv2__entry">
+            <p class="cv2__period">{item.period}</p>
+            <h3>{g(item, 'degree', lang)}</h3>
+            <p class="cv2__institution">{item.institution}</p>
+            {g(item, 'note', lang) && <p class="cv2__muted cv2__italic">{g(item, 'note', lang)}</p>}
+          </div>
+        ))}
+      </section>
+
+      <section class="cv2__section">
+        <div class="cv2__section-title"><h2>{ui.cv.experience}</h2><div aria-hidden="true"></div></div>
+        {cv.experience.map((item) => (
+          <div class="cv2__entry">
+            <p class="cv2__period">{item.period}</p>
+            <h3>{g(item, 'role', lang)}</h3>
+            <p class="cv2__institution">{item.org}</p>
+            <ul>
+              {arr(item, 'bullets', lang).map((bullet) => <li><span aria-hidden="true">–</span>{bullet}</li>)}
+            </ul>
+          </div>
+        ))}
+      </section>
+
+      <section class="cv2__section">
+        <div class="cv2__section-title"><h2>{ui.cv.papers}</h2><div aria-hidden="true"></div></div>
+        <div class="cv2__progress-list">
+          {cv.papers.map((paper) => (
+            <div class="cv2__progress-item">
+              <h3>{g(paper, 'titulo', lang)}</h3>
+              {g(paper, 'coautores', lang) && <p class="cv2__muted cv2__italic">{g(paper, 'coautores', lang)}</p>}
+              <p class="cv2__progress-status">{g(paper, 'estado', lang)}</p>
+              <p>{g(paper, 'desc', lang)}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+    </main>
+
+    <section class="cv2__column cv2__column--awards" aria-labelledby="cv-awards-title">
+      <div class="cv2__section-title"><h2 id="cv-awards-title">{ui.cv.awards}</h2><div aria-hidden="true"></div></div>
+      <div class="cv2__receipt-list">
+        {cv.awards.map((award, index) => (
+          <div class:list={['cv2__receipt-row', { 'cv2__receipt-row--recent': index < 2 }]}>
+            <span>{award.year}</span>
+            <div>
+              <strong>{g(award, 'title', lang)}</strong>
+              <em>{award.org}</em>
+            </div>
+            {index < 2 && <b aria-hidden="true"></b>}
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <aside class="cv2__skills" aria-labelledby="cv-skills-title">
+      <h2 id="cv-skills-title">{ui.cv.skills}</h2>
+      {cvSkills.map((group) => (
+        <div class="cv2__skill-group">
+          <h3>{group.name}</h3>
+          <div>
+            {group.values.map((skill) => <span>{skill}</span>)}
+          </div>
+        </div>
+      ))}
+      <a class="cv2__download" href="/assets/cv.pdf" download>{downloadLabel}</a>
+    </aside>
+  </div>
+</article>
+
+<style>
+  .cv2 {
+    --cv-bg: #d4cdb8;
+    --cv-panel: #33302a;
+    --cv-card: #c8c0ac;
+    --cv-rule: rgba(30, 27, 22, 0.10);
+    --cv-rule-strong: rgba(30, 27, 22, 0.18);
+    --cv-ink: #1e1b16;
+    --cv-dim: #6a6050;
+    --cv-moss: #6b8f72;
+    --cv-moss-deep: #4f7658;
+    --cv-terracota: #8c6a55;
+    --cv-panel-text: #e8e2d6;
+    --cv-panel-dim: rgba(232, 226, 214, 0.45);
+    --cv-stripe: #2a2722;
+    width: min(100%, 1100px);
+    margin: 0 auto;
+    background: var(--cv-bg);
+    color: var(--cv-ink);
+    font-family: var(--font-serif);
+    border-left: 1px solid var(--cv-rule);
+    border-right: 1px solid var(--cv-rule);
+    box-shadow: 0 32px 80px rgba(16, 15, 13, 0.13);
+  }
+  .cv2__header { background: var(--cv-panel); display: grid; grid-template-columns: 56px minmax(0, 1fr) auto; align-items: stretch; }
+  .cv2__stripe { background: var(--cv-moss); opacity: 0.6; }
+  .cv2__identity { padding: 44px 44px 40px 28px; }
+  .cv2__tagline, .cv2__roleline, .cv2__contact-item span, .cv2__section-title h2, .cv2__period, .cv2__institution, .cv2__receipt-row span, .cv2__receipt-row em, .cv2__skills h2, .cv2__skill-group h3, .cv2__download, .cv2__progress-status { font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.12em; }
+  .cv2__tagline { font-size: 9px; letter-spacing: 0.22em; color: var(--cv-moss); margin-bottom: 12px; }
+  .cv2__name { font-size: clamp(42px, 5vw, 52px); font-weight: 400; color: var(--cv-panel-text); line-height: 1; letter-spacing: -0.01em; }
+  .cv2__name span { font-style: italic; opacity: 0.55; }
+  .cv2__roleline { display: flex; align-items: center; gap: 16px; margin-top: 12px; font-size: 11px; color: var(--cv-moss); }
+  .cv2__roleline i { width: 4px; height: 4px; border-radius: 999px; background: var(--cv-terracota); opacity: 0.7; }
+  .cv2__affiliation { font-size: 9px; color: var(--cv-panel-text); opacity: 0.4; letter-spacing: 0.08em; }
+  .cv2__contact { padding: 44px 52px 40px 0; display: flex; flex-direction: column; gap: 9px; justify-content: flex-end; min-width: 210px; }
+  .cv2__contact-item { text-align: right; }
+  .cv2__contact-item span { display: block; font-size: 7.5px; letter-spacing: 0.14em; color: var(--cv-moss); opacity: 0.45; margin-bottom: 1px; }
+  .cv2__contact-item a, .cv2__contact-item strong { display: block; font-size: 12px; line-height: 1.2; color: var(--cv-panel-text); opacity: 0.65; font-weight: 400; transition: opacity 0.15s, color 0.15s; }
+  .cv2__contact-item a:hover { color: var(--cv-panel-text); opacity: 1; }
+  .cv2__body { display: grid; grid-template-columns: 56px minmax(0, 1fr) minmax(0, 1fr) 280px; min-height: 680px; }
+  .cv2__stripe--body { background: rgba(107, 143, 114, 0.12); border-right: 1px solid rgba(107, 143, 114, 0.15); }
+  .cv2__column { padding: 36px 32px; border-right: 1px solid var(--cv-rule); display: flex; flex-direction: column; gap: 30px; }
+  .cv2__column--main { padding-left: 28px; }
+  .cv2__section-title { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+  .cv2__section-title h2 { font-size: 8px; letter-spacing: 0.2em; color: var(--cv-moss); font-weight: 400; white-space: nowrap; }
+  .cv2__section-title div { flex: 1; height: 1px; background: var(--cv-rule); }
+  .cv2__entry { margin-bottom: 20px; }
+  .cv2__entry:last-child { margin-bottom: 0; }
+  .cv2__period { font-size: 8.5px; color: var(--cv-moss); letter-spacing: 0.1em; opacity: 0.8; margin-bottom: 4px; }
+  .cv2__entry h3, .cv2__progress-item h3 { font-size: 16px; color: var(--cv-ink); font-weight: 500; line-height: 1.2; margin-bottom: 2px; }
+  .cv2__institution { font-size: 9px; letter-spacing: 0.08em; color: var(--cv-moss); opacity: 0.65; margin-bottom: 8px; }
+  .cv2__muted, .cv2__progress-item p { font-size: 12.5px; color: var(--cv-dim); line-height: 1.45; }
+  .cv2__italic { font-style: italic; }
+  .cv2__entry ul { display: flex; flex-direction: column; gap: 4px; }
+  .cv2__entry li { display: flex; gap: 8px; color: var(--cv-dim); font-size: 13px; line-height: 1.5; }
+  .cv2__entry li span { color: var(--cv-moss); flex-shrink: 0; opacity: 0.65; }
+  .cv2__progress-list { display: grid; gap: 12px; }
+  .cv2__progress-item { padding-bottom: 12px; border-bottom: 1px solid var(--cv-rule); }
+  .cv2__progress-item:last-child { border-bottom: 0; padding-bottom: 0; }
+  .cv2__progress-item h3 { font-style: italic; margin-bottom: 4px; }
+  .cv2__progress-status { display: inline-block; margin: 7px 0 4px; font-size: 7.5px; letter-spacing: 0.14em; color: var(--cv-terracota); border: 1px solid rgba(140, 106, 85, 0.24); padding: 2px 6px; }
+  .cv2__receipt-list { display: grid; }
+  .cv2__receipt-row { display: flex; gap: 14px; padding: 9px 0; border-bottom: 1px solid var(--cv-rule); align-items: flex-start; }
+  .cv2__receipt-row span { width: 28px; flex-shrink: 0; padding-top: 3px; font-size: 8px; color: var(--cv-moss); letter-spacing: 0.06em; opacity: 0.9; }
+  .cv2__receipt-row--recent span { color: var(--cv-terracota); }
+  .cv2__receipt-row strong { display: block; font-size: 14.5px; font-weight: 400; color: var(--cv-ink); line-height: 1.25; margin-bottom: 2px; }
+  .cv2__receipt-row em { display: block; font-size: 8px; letter-spacing: 0.1em; color: var(--cv-dim); opacity: 0.7; font-style: normal; }
+  .cv2__receipt-row b { margin-left: auto; width: 4px; height: 4px; border-radius: 999px; background: var(--cv-terracota); margin-top: 6px; flex-shrink: 0; }
+  .cv2__skills { background: var(--cv-stripe); padding: 36px 24px; display: flex; flex-direction: column; gap: 22px; }
+  .cv2__skills h2 { font-size: 8px; letter-spacing: 0.2em; color: var(--cv-moss); opacity: 0.65; font-weight: 400; }
+  .cv2__skill-group h3 { font-size: 7.5px; letter-spacing: 0.14em; color: var(--cv-moss); margin-bottom: 6px; opacity: 0.5; font-weight: 400; }
+  .cv2__skill-group div { display: flex; flex-wrap: wrap; gap: 4px; }
+  .cv2__skill-group span { font-size: 11px; color: var(--cv-panel-text); background: rgba(255, 255, 255, 0.06); padding: 2px 7px; border-radius: 2px; opacity: 0.8; line-height: 1.45; }
+  .cv2__download { margin-top: auto; border: 1px solid rgba(232, 226, 214, 0.18); color: var(--cv-panel-text); font-size: 9px; letter-spacing: 0.16em; padding: 10px 12px; text-align: center; opacity: 0.72; transition: opacity 0.15s, border-color 0.15s, background 0.15s; }
+  .cv2__download:hover { opacity: 1; border-color: rgba(107, 143, 114, 0.6); background: rgba(107, 143, 114, 0.12); }
+  @media (max-width: 1180px) { .cv2 { width: 100%; border-left: 0; border-right: 0; } }
+  @media (max-width: 980px) { .cv2__header { grid-template-columns: 16px 1fr; } .cv2__contact { grid-column: 2; padding: 0 28px 32px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); min-width: 0; } .cv2__contact-item { text-align: left; } .cv2__body { grid-template-columns: 16px minmax(0, 1fr); } .cv2__column, .cv2__skills { grid-column: 2; border-right: 0; border-bottom: 1px solid var(--cv-rule); } .cv2__stripe--body { grid-row: 1 / span 3; } .cv2__skills { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); } .cv2__skills h2, .cv2__download { grid-column: 1 / -1; } }
+  @media (max-width: 620px) { .cv2__identity { padding: 34px 24px 28px 18px; } .cv2__roleline { align-items: flex-start; flex-direction: column; gap: 7px; } .cv2__roleline i { display: none; } .cv2__contact { grid-template-columns: 1fr; padding-right: 24px; } .cv2__column, .cv2__skills { padding: 28px 22px 28px 18px; } .cv2__skills { grid-template-columns: 1fr; } }
+</style>

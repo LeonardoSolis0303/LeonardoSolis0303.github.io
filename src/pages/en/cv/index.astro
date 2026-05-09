@@ -1,20 +1,10 @@
 ---
 import Base from '../../../layouts/Base.astro';
 import { t } from '../../../lib/i18n';
-import { data, g, arr } from '../../../lib/site';
+import CVPageLinoCarbon from '../../../components/CVPageLinoCarbon.astro';
 const lang = 'en';
 const ui = t(lang);
-const cv:any = data.CV;
-const cvSkills = Object.entries(lang === 'en' ? cv.skills_en : cv.skills).map(([name, values]: any) => ({ name, values }));
 ---
 <Base lang="en" title="CV — Leonardo Solis" description={ui.cv.subtitle} canonical="/en/cv" alternateUrl="/es/cv">
-  <header class="page-header"><div class="kicker">curriculum vitae</div><h1 class="page-title">{cv.name}</h1><p class="page-subtitle">{g(cv,'title',lang)} · {g(cv,'tagline',lang)}</p></header>
-  <div class="page-body cv-page">
-    <a class="btn-outline" href="/assets/cv.pdf" download>↓ {ui.cv.download}</a>
-    <section class="cv-section"><h2>{ui.cv.education}</h2>{cv.education.map((e)=><div class="cv-item"><div class="cv-meta">{e.period}</div><h3>{g(e,'degree',lang)}</h3><p>{e.institution}</p><p class="muted">{g(e,'note',lang)}</p></div>)}</section>
-    <section class="cv-section"><h2>{ui.cv.experience}</h2>{cv.experience.map((e)=><div class="cv-item"><div class="cv-meta">{e.period}</div><h3>{g(e,'role',lang)}</h3><p>{e.org}</p><ul>{arr(e,'bullets',lang).map((b)=><li>{b}</li>)}</ul></div>)}</section>
-    <section class="cv-section"><h2>{ui.cv.awards}</h2><div class="receipt-list">{cv.awards.map((a,i)=><div class:list={['receipt-row',{recent:i<2}]}><span>{a.year}</span><strong>{g(a,'title',lang)}</strong><em>{a.org}</em></div>)}</div></section>
-    <section class="cv-section"><h2>{ui.cv.papers}</h2>{cv.papers.map((p)=><div class="cv-item"><h3>{g(p,'titulo',lang)}</h3>{g(p,'coautores',lang)&&<p class="muted">{g(p,'coautores',lang)}</p>}<p><span class="status-pill status--exploratorio">{g(p,'estado',lang)}</span></p><p>{g(p,'desc',lang)}</p></div>)}</section>
-    <section class="cv-section"><h2>{ui.cv.skills}</h2><div class="skills-grid">{cvSkills.map((s)=><div><h3>{s.name}</h3><p>{s.values.join(' · ')}</p></div>)}</div></section>
-  </div>
+  <CVPageLinoCarbon lang={lang} />
 </Base>
