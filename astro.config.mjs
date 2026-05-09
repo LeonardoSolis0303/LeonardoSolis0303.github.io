@@ -6,7 +6,7 @@ import { defineConfig } from 'astro/config';
 // Si tu repo se llama distinto (ej. "mi-sitio"), descomenta "base"
 // y ponlo a "/mi-sitio/".
 export default defineConfig({
-  site: 'https://leosolis.github.io',
+  site: 'https://leonardosolis0303.github.io',
   // base: '/mi-sitio/',
   trailingSlash: 'never',
   build: { format: 'directory' },
