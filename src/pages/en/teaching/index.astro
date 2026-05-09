@@ -1,0 +1,13 @@
+---
+import Base from '../../../layouts/Base.astro';
+import { t } from '../../../lib/i18n';
+import { data, g, teachingSlug, routeFor } from '../../../lib/site';
+const lang='en'; const ui=t(lang); const e:any=data.ENSENANZA;
+const groups=[{id:'problemas',title:ui.teaching.problems,items:e.problemas},{id:'presenciales',title:ui.teaching.presential,items:e.presenciales},{id:'universitarias',title:ui.teaching.university,items:e.universitarias}];
+---
+<Base lang="en" title="Teaching — Leonardo Solis" description={ui.teaching.subtitle} canonical="/en/teaching" alternateUrl="/es/ensenanza">
+  <header class="page-header"><div class="kicker">teaching</div><h1 class="page-title">{ui.teaching.title}</h1><p class="page-subtitle">{ui.teaching.subtitle}</p></header>
+  <div class="page-body"><div class="anchor-tabs"><a href="#problemas">{ui.teaching.problems}</a><a href="#presenciales">{ui.teaching.presential}</a><a href="#universitarias">{ui.teaching.university}</a></div>
+  {groups.map(group=><section id={group.id} class="content-section"><div class="section-label"><span class="section-label__text">{group.title}</span><span class="section-label__rule"></span></div><div class="card-list">{group.items.map((item, i)=><a href={routeFor(lang,'teaching',teachingSlug({...item,kind:group.id,kindIndex:i}))} class="content-card"><div class="card-meta"><span>{item.año || item.periodo}</span>{item.categoria && <><span>·</span><span>{g(item,'categoria',lang)}</span></>}</div><h2>{g(item,'titulo',lang)}</h2><p>{g(item,'desc',lang)}</p><div class="tag-row">{(item.tags || item.temas || []).map((s)=><span>{s}</span>)}</div></a>)}</div></section>)}
+  </div>
+</Base>

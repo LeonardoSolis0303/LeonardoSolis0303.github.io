@@ -1,0 +1,10 @@
+---
+import Base from '../../../layouts/Base.astro';
+import { t } from '../../../lib/i18n';
+import { data, g, reviewSlug, routeFor, reviewCatClass } from '../../../lib/site';
+export function getStaticPaths(){ return data.RESENAS.map((item)=>({params:{slug:reviewSlug(item)}, props:{item}})); }
+const { item }=Astro.props; const lang='en'; const ui=t(lang);
+---
+<Base lang="en" title={`${item.titulo} — Review`} description={g(item,'extracto',lang)} canonical={routeFor(lang,'reviews',reviewSlug(item))} alternateUrl={routeFor('es','reviews',reviewSlug(item))} type="article">
+  <article class="page-body detail-page"><a href={routeFor(lang,'reviews')} class="back-link">{ui.reviews.back}</a><div class="detail-meta"><span class:list={['chip',reviewCatClass(item.cat)]}>{g(item,'catLabel',lang)}</span><span>{item.estado ? ui.reviews.status[item.estado] : ui.reviews.status.leido}</span><span>{ui.reviews.score}: {item.score}/10</span></div><h1 class="detail-title">{item.titulo}</h1><p class="detail-desc">{item.autor} · {item.año}</p><div class="prose">{g(item,'resena',lang).split('\n\n').map((p)=><p>{p}</p>)}</div></article>
+</Base>

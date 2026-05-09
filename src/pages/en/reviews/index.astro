@@ -1,0 +1,11 @@
+---
+import Base from '../../../layouts/Base.astro';
+import { t } from '../../../lib/i18n';
+import { data, g, reviewSlug, routeFor, reviewCatClass } from '../../../lib/site';
+const lang='en'; const ui=t(lang);
+---
+<Base lang="en" title="Reviews — Leonardo Solis" description={ui.reviews.subtitle} canonical="/en/reviews" alternateUrl="/es/resenas">
+  <header class="page-header"><div class="kicker">reviews</div><h1 class="page-title">{ui.reviews.title}</h1><p class="page-subtitle">{ui.reviews.subtitle}</p></header>
+  <div class="page-body"><div class="filterbar" data-filter-group><button class="filter-btn is-active" data-filter="all">{ui.reviews.all}</button><button class="filter-btn" data-filter="noficcion">{ui.reviews.nonfiction}</button><button class="filter-btn" data-filter="ciencias">{ui.reviews.science}</button><button class="filter-btn" data-filter="ficcion">{ui.reviews.fiction}</button></div><div class="card-list review-grid">{data.RESENAS.map((item)=><a href={routeFor(lang,'reviews',reviewSlug(item))} class="content-card review-card" data-filter-item={item.cat}><div class="card-meta"><span class:list={['chip',reviewCatClass(item.cat)]}>{g(item,'catLabel',lang)}</span><span>{item.estado ? ui.reviews.status[item.estado] : ui.reviews.status.leido}</span><span>·</span><span>{ui.reviews.score}: {item.score}/10</span></div><h2>{item.titulo}</h2><p>{g(item,'extracto',lang)}</p><div class="review-author">{item.autor} · {item.año}</div></a>)}</div></div>
+  <script src="/filter.js" is:inline></script>
+</Base>

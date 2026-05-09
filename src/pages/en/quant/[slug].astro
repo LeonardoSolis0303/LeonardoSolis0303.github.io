@@ -1,0 +1,10 @@
+---
+import Base from '../../../layouts/Base.astro';
+import { t } from '../../../lib/i18n';
+import { data, g, quantSlug, routeFor } from '../../../lib/site';
+export function getStaticPaths(){ return data.QUANT.map((item)=>({params:{slug:quantSlug(item)}, props:{item}})); }
+const { item } = Astro.props; const lang='en'; const ui=t(lang);
+---
+<Base lang="en" title={`${g(item,'titulo',lang)} — Quant`} description={g(item,'desc',lang)} canonical={routeFor(lang,'quant',quantSlug(item))} alternateUrl={routeFor('es','quant',quantSlug(item))}>
+  <article class="page-body detail-page"><a href={routeFor(lang,'quant')} class="back-link">{ui.quant.back}</a><div class="kicker">quant research</div><h1 class="detail-title">{g(item,'titulo',lang)}</h1><p class="detail-desc">{g(item,'desc',lang)}</p><div class="detail-grid"><div><strong>{ui.quant.period}</strong><span>{item.periodo}</span></div><div><strong>{ui.quant.organization}</strong><span>{item.org}</span></div></div><h2 class="detail-section-title">{ui.quant.stack}</h2><div class="tag-row detail-tags">{item.stack.map((s)=><span>{s}</span>)}</div></article>
+</Base>

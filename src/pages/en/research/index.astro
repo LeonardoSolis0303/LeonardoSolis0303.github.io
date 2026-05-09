@@ -1,0 +1,27 @@
+---
+import Base from '../../../layouts/Base.astro';
+import { t } from '../../../lib/i18n';
+import { data, g, researchSlug, routeFor, lineClass, statusLabel, statusInfo } from '../../../lib/site';
+const lang = 'en'; const ui = t(lang);
+---
+<Base lang="en" title="Research — Leonardo Solis" description={ui.research.subtitle} canonical="/en/research" alternateUrl="/es/research">
+  <header class="page-header"><div class="kicker">research</div><h1 class="page-title">{ui.research.title}</h1><p class="page-subtitle">{ui.research.subtitle}</p></header>
+  <div class="page-body">
+    <div class="filterbar" data-filter-group>
+      <button class="filter-btn is-active" data-filter="all">{ui.research.all}</button>
+      <button class="filter-btn" data-filter="experimental">{ui.research.lab}</button>
+      <button class="filter-btn" data-filter="teorico">{ui.research.theory}</button>
+    </div>
+    <div class="card-list">
+      {data.RESEARCH.map((item)=>(
+        <a href={routeFor(lang,'research',researchSlug(item))} class="research-card content-card" data-filter-item={item.linea}>
+          <div class="card-meta"><span class:list={['chip',lineClass(item.linea)]}>{g(item,'lineaLabel',lang)}</span><span class:list={['status-pill',statusInfo[item.status]?.cls]}>{statusLabel(item.status,lang)}</span></div>
+          <h2>{g(item,'titulo',lang)}</h2>
+          <p>{g(item,'desc',lang)}</p>
+          <div class="tag-row">{item.tags.map((tag)=><span>{tag}</span>)}</div>
+        </a>
+      ))}
+    </div>
+  </div>
+  <script src="/filter.js" is:inline></script>
+</Base>

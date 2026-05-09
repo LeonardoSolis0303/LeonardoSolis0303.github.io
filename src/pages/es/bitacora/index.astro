@@ -2,10 +2,10 @@
 import Base from '../../../layouts/Base.astro';
 import { t } from '../../../lib/i18n';
 import { data, g, blogSlug, routeFor, catClass } from '../../../lib/site';
-const lang='en'; const ui=t(lang); const cats=['fisica','quant','matematicas','mercados','personal'] as const;
+const lang='es'; const ui=t(lang); const cats=['fisica','quant','matematicas','mercados','personal'] as const;
 ---
-<Base lang="en" title="Log — Leonardo Solis" description={ui.blog.subtitle} canonical="/en/blog" alternateUrl="/es/bitacora">
-  <header class="page-header"><div class="kicker">log</div><h1 class="page-title">{ui.blog.title}</h1><p class="page-subtitle">{ui.blog.subtitle}</p></header>
+<Base lang="es" title="Bitácora — Leonardo Solis" description={ui.blog.subtitle} canonical="/es/bitacora" alternateUrl="/en/blog">
+  <header class="page-header"><div class="kicker">bitácora</div><h1 class="page-title">{ui.blog.title}</h1><p class="page-subtitle">{ui.blog.subtitle}</p></header>
   <div class="page-body"><div class="filterbar" data-filter-group><button class="filter-btn is-active" data-filter="all">{ui.blog.all}</button>{cats.map(c=><button class="filter-btn" data-filter={c}>{ui.blog.cats[c]}</button>)}</div><div class="entry-list">{data.BITACORA.map((item)=><a href={routeFor(lang,'blog',blogSlug(item))} class:list={['entry',{ 'entry--with-image': item.imagen }]} data-filter-item={item.categoria}><div class="entry__date">{item.fecha}<span>{item.min} {ui.blog.readingTime}</span></div><div><div class="entry__meta"><span class:list={['chip',catClass(item.categoria)]}>{g(item,'catLabel',lang)}</span>{item.destacada && <span class="featured-star">★ {ui.blog.featured}</span>}</div><h2 class="entry__title">{g(item,'titulo',lang)}</h2><p class="entry__excerpt">{g(item,'extracto',lang)}</p></div>{item.imagen && <img src={item.imagen} alt="" class="entry__cover" />}</a>)}</div></div>
   <script src="/filter.js" is:inline></script>
 </Base>

@@ -1,32 +1,21 @@
 ---
 import '../styles/home.css';
-import { t, routes, formatDateShort, type Lang } from '../lib/i18n';
-import { getCollection } from 'astro:content';
-import { byLang, entryUrl } from '../lib/content';
-
-interface Props {
-  lang: Lang;
-}
-
+import { t, routes, type Lang } from '../lib/i18n';
+import { data, g, routeFor, blogSlug, researchSlug, quantSlug } from '../lib/site';
+interface Props { lang: Lang; }
 const { lang } = Astro.props;
 const ui = t(lang);
 const r = routes[lang];
-
-const allBlog     = await getCollection('blog');
-const allProjects = await getCollection('projects');
-const blogLang    = byLang(allBlog,     lang);
-const projsLang   = byLang(allProjects, lang);
-
-const recentPosts    = blogLang.slice(0, 3);
-const featuredProjs  = projsLang.slice(0, 3);
-const latest         = blogLang[0];
-
+const latest = data.BITACORA[0];
+const recentPosts = data.BITACORA.slice(0,3);
+const featuredResearch = data.RESEARCH.slice(0,3);
+const featuredQuant = data.QUANT.slice(0,2);
 const shortcuts = [
-  latest ? { label: ui.home.latestPost, sub: formatDateShort(latest.data.date, lang), href: entryUrl(latest) } : null,
-  { label: ui.home.mathComps, sub: null, href: r.projects },
-  { label: ui.home.problems,  sub: null, href: r.projects },
-  { label: ui.home.classes,   sub: null, href: r.about },
-].filter(Boolean) as { label: string; sub: string | null; href: string }[];
+  { label: ui.home.latestPost, sub: latest.fecha, href: routeFor(lang,'blog',blogSlug(latest)) },
+  { label: ui.home.mathComps, sub: null, href: `${r.teaching}#problemas` },
+  { label: ui.home.problems, sub: null, href: `${r.teaching}#problemas` },
+  { label: ui.home.classes, sub: null, href: `${r.teaching}#presenciales` },
+];
 ---
 
 <div class="home">
@@ -43,12 +32,9 @@ const shortcuts = [
   <div class="home__body">
     <div class="home__grid">
       <div>
-        <div class="home__blurb-eyebrow">
-          {lang === 'en' ? 'About this site' : 'Sobre este sitio'}
-        </div>
+        <div class="home__blurb-eyebrow">{ui.home.aboutLabel}</div>
         <p class="home__blurb">{ui.home.blurb}</p>
       </div>
-
       <div>
         <div class="home__blurb-eyebrow">{ui.home.shortcuts}</div>
         {shortcuts.map(s => (
@@ -57,47 +43,38 @@ const shortcuts = [
             {s.sub && <span class="home__shortcut-sub">{s.sub}</span>}
           </a>
         ))}
-        <a href="/assets/cv.pdf" download class="btn-outline btn-outline--dark home__cv">
-          <span style="font-size:11px">↓</span>
-          {ui.home.downloadCV}
-        </a>
+        <a href="/assets/cv.pdf" download class="btn-outline btn-outline--dark home__cv"><span style="font-size:11px">↓</span>{ui.home.downloadCV}</a>
       </div>
     </div>
 
-    {recentPosts.length > 0 && (
-      <section class="home__section">
-        <div class="home__section-title">
-          <span>{ui.home.recentPosts}</span>
-          <a href={r.blog}>{ui.home.seeAll} →</a>
-        </div>
-        {recentPosts.map(p => (
-          <a href={entryUrl(p)} class="home__entry">
-            <div class="home__entry-date">{formatDateShort(p.data.date, lang)}</div>
-            <div>
-              <div class="home__entry-title">{p.data.title}</div>
-              <p class="home__entry-desc">{p.data.description}</p>
-            </div>
-          </a>
-        ))}
-      </section>
-    )}
+    <section class="home__section">
+      <div class="home__section-title"><span>{ui.home.recentPosts}</span><a href={r.blog}>{ui.home.seeAll} →</a></div>
+      {recentPosts.map(p => (
+        <a href={routeFor(lang,'blog',blogSlug(p))} class="home__entry">
+          <div class="home__entry-date">{p.fecha}</div>
+          <div><div class="home__entry-title">{p.destacada ? '★ ' : ''}{g(p,'titulo',lang)}</div><p class="home__entry-desc">{g(p,'extracto',lang)}</p></div>
+        </a>
+      ))}
+    </section>
 
-    {featuredProjs.length > 0 && (
-      <section class="home__section">
-        <div class="home__section-title">
-          <span>{ui.home.featuredProjects}</span>
-          <a href={r.projects}>{ui.home.seeAll} →</a>
-        </div>
-        {featuredProjs.map(p => (
-          <a href={entryUrl(p)} class="home__entry">
-            <div class="home__entry-date">{formatDateShort(p.data.date, lang)}</div>
-            <div>
-              <div class="home__entry-title">{p.data.title}</div>
-              <p class="home__entry-desc">{p.data.description}</p>
-            </div>
-          </a>
-        ))}
-      </section>
-    )}
+    <section class="home__section">
+      <div class="home__section-title"><span>{ui.home.featuredResearch}</span><a href={r.research}>{ui.home.seeAll} →</a></div>
+      {featuredResearch.map(p => (
+        <a href={routeFor(lang,'research',researchSlug(p))} class="home__entry">
+          <div class="home__entry-date">{g(p,'lineaLabel',lang)}</div>
+          <div><div class="home__entry-title">{g(p,'titulo',lang)}</div><p class="home__entry-desc">{g(p,'desc',lang)}</p></div>
+        </a>
+      ))}
+    </section>
+
+    <section class="home__section">
+      <div class="home__section-title"><span>{ui.home.featuredQuant}</span><a href={r.quant}>{ui.home.seeAll} →</a></div>
+      {featuredQuant.map(p => (
+        <a href={routeFor(lang,'quant',quantSlug(p))} class="home__entry">
+          <div class="home__entry-date">{p.periodo}</div>
+          <div><div class="home__entry-title">{g(p,'titulo',lang)}</div><p class="home__entry-desc">{g(p,'desc',lang)}</p></div>
+        </a>
+      ))}
+    </section>
   </div>
 </div>

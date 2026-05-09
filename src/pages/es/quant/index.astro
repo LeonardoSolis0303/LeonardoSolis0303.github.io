@@ -1,0 +1,21 @@
+---
+import Base from '../../../layouts/Base.astro';
+import { t } from '../../../lib/i18n';
+import { data, g, quantSlug, routeFor } from '../../../lib/site';
+const lang='es'; const ui=t(lang);
+---
+<Base lang="es" title="Quant & Mercados — Leonardo Solis" description={ui.quant.subtitle} canonical="/es/quant" alternateUrl="/en/quant">
+  <header class="page-header"><div class="kicker">quant research</div><h1 class="page-title">{ui.quant.title}</h1><p class="page-subtitle">{ui.quant.subtitle}</p></header>
+  <div class="page-body">
+    <p class="section-intro">{ui.quant.intro}</p>
+    <div class="card-list quant-list">
+      {data.QUANT.map((item)=>(
+        <a href={routeFor(lang,'quant',quantSlug(item))} class="content-card quant-card">
+          <div class="card-meta"><span>{item.periodo}</span><span>·</span><span>{item.org}</span></div>
+          <h2>{g(item,'titulo',lang)}</h2><p>{g(item,'desc',lang)}</p>
+          <div class="tag-row">{item.stack.map((tag)=><span>{tag}</span>)}</div>
+        </a>
+      ))}
+    </div>
+  </div>
+</Base>
