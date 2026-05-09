@@ -1,0 +1,103 @@
+---
+import '../styles/home.css';
+import { t, routes, formatDateShort, type Lang } from '../lib/i18n';
+import { getCollection } from 'astro:content';
+import { byLang, entryUrl } from '../lib/content';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const ui = t(lang);
+const r = routes[lang];
+
+const allBlog     = await getCollection('blog');
+const allProjects = await getCollection('projects');
+const blogLang    = byLang(allBlog,     lang);
+const projsLang   = byLang(allProjects, lang);
+
+const recentPosts    = blogLang.slice(0, 3);
+const featuredProjs  = projsLang.slice(0, 3);
+const latest         = blogLang[0];
+
+const shortcuts = [
+  latest ? { label: ui.home.latestPost, sub: formatDateShort(latest.data.date, lang), href: entryUrl(latest) } : null,
+  { label: ui.home.mathComps, sub: null, href: r.projects },
+  { label: ui.home.problems,  sub: null, href: r.projects },
+  { label: ui.home.classes,   sub: null, href: r.about },
+].filter(Boolean) as { label: string; sub: string | null; href: string }[];
+---
+
+<div class="home">
+  <section class="hero">
+    <img src="/assets/pizarron.jpg" alt="" class="hero__img" />
+    <div class="hero__overlay"></div>
+    <div class="hero__content">
+      <div class="hero__eyebrow">{ui.home.eyebrow}</div>
+      <h1 class="hero__name">Leonardo <em>Solis</em></h1>
+      <div class="hero__role">{ui.home.role}</div>
+    </div>
+  </section>
+
+  <div class="home__body">
+    <div class="home__grid">
+      <div>
+        <div class="home__blurb-eyebrow">
+          {lang === 'en' ? 'About this site' : 'Sobre este sitio'}
+        </div>
+        <p class="home__blurb">{ui.home.blurb}</p>
+      </div>
+
+      <div>
+        <div class="home__blurb-eyebrow">{ui.home.shortcuts}</div>
+        {shortcuts.map(s => (
+          <a href={s.href} class="home__shortcut">
+            <span class="home__shortcut-left">{s.label}</span>
+            {s.sub && <span class="home__shortcut-sub">{s.sub}</span>}
+          </a>
+        ))}
+        <a href="/assets/cv.pdf" download class="btn-outline btn-outline--dark home__cv">
+          <span style="font-size:11px">↓</span>
+          {ui.home.downloadCV}
+        </a>
+      </div>
+    </div>
+
+    {recentPosts.length > 0 && (
+      <section class="home__section">
+        <div class="home__section-title">
+          <span>{ui.home.recentPosts}</span>
+          <a href={r.blog}>{ui.home.seeAll} →</a>
+        </div>
+        {recentPosts.map(p => (
+          <a href={entryUrl(p)} class="home__entry">
+            <div class="home__entry-date">{formatDateShort(p.data.date, lang)}</div>
+            <div>
+              <div class="home__entry-title">{p.data.title}</div>
+              <p class="home__entry-desc">{p.data.description}</p>
+            </div>
+          </a>
+        ))}
+      </section>
+    )}
+
+    {featuredProjs.length > 0 && (
+      <section class="home__section">
+        <div class="home__section-title">
+          <span>{ui.home.featuredProjects}</span>
+          <a href={r.projects}>{ui.home.seeAll} →</a>
+        </div>
+        {featuredProjs.map(p => (
+          <a href={entryUrl(p)} class="home__entry">
+            <div class="home__entry-date">{formatDateShort(p.data.date, lang)}</div>
+            <div>
+              <div class="home__entry-title">{p.data.title}</div>
+              <p class="home__entry-desc">{p.data.description}</p>
+            </div>
+          </a>
+        ))}
+      </section>
+    )}
+  </div>
+</div>

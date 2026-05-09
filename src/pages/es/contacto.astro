@@ -1,0 +1,38 @@
+---
+import Base from '../../layouts/Base.astro';
+---
+<Base
+  lang="es"
+  title="Contacto — Leonardo Solis"
+  description="Información de contacto y CV."
+  alternateUrl="/en/contact"
+  canonical="/es/contacto"
+>
+  <header class="page-header">
+    <p class="kicker">contacto</p>
+    <h1 class="page-title">Contacto</h1>
+    <p class="page-subtitle">Escríbeme, o descarga el CV.</p>
+  </header>
+
+  <div class="page-body">
+    <div class="prose">
+      <p>
+        Para investigación, colaboraciones o trabajo, lo mejor es escribirme
+        por correo.
+      </p>
+      <ul>
+        <li><strong>Correo:</strong> <a href="mailto:tucorreo@ejemplo.com">tucorreo@ejemplo.com</a></li>
+        <li><strong>GitHub:</strong> <a href="https://github.com/">github.com/leosolis</a></li>
+        <li><strong>LinkedIn:</strong> <a href="https://linkedin.com/in/">linkedin.com/in/leosolis</a></li>
+        <li><strong>Ubicación:</strong> Ciudad de México, MX</li>
+      </ul>
+    </div>
+
+    <div style="margin-top:32px">
+      <a href="/assets/cv.pdf" download class="btn-outline">
+        <span style="font-size:11px">↓</span>
+        Descargar CV (PDF)
+      </a>
+    </div>
+  </div>
+</Base>

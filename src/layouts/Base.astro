@@ -1,0 +1,62 @@
+---
+import '../styles/global.css';
+import Sidebar from '../components/Sidebar.astro';
+import SEO from '../components/SEO.astro';
+import { type Lang } from '../lib/i18n';
+
+interface Props {
+  lang: Lang;
+  title: string;
+  description: string;
+  variant?: 'dark' | 'light';
+  alternateUrl?: string;
+  canonical?: string;
+  type?: 'website' | 'article';
+  image?: string;
+  publishedTime?: Date;
+  bodyClass?: string;
+}
+
+const {
+  lang,
+  title,
+  description,
+  variant = 'light',
+  alternateUrl,
+  canonical,
+  type = 'website',
+  image,
+  publishedTime,
+  bodyClass,
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="theme-color" content={variant === 'dark' ? '#100f0d' : '#d4cdb8'} />
+
+    <SEO
+      title={title}
+      description={description}
+      lang={lang}
+      canonical={canonical}
+      alternateUrl={alternateUrl}
+      type={type}
+      image={image}
+      publishedTime={publishedTime}
+    />
+  </head>
+  <body class={bodyClass}>
+    <div class:list={['app', { 'app--dark': variant === 'dark' }]}>
+      <Sidebar lang={lang} variant={variant} altUrl={alternateUrl} />
+      <main class="main">
+        <slot />
+      </main>
+    </div>
+  </body>
+</html>

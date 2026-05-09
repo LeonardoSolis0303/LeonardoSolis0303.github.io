@@ -1,0 +1,50 @@
+---
+import Base from '../../../layouts/Base.astro';
+import { getCollection, render } from 'astro:content';
+import { byLang, counterpart, entryUrl, estimateReadingMinutes } from '../../../lib/content';
+import { t, formatDate } from '../../../lib/i18n';
+
+export async function getStaticPaths() {
+  const all = await getCollection('blog');
+  return byLang(all, 'es').map(entry => ({
+    params: { slug: entry.data.slug },
+    props: { entry, all },
+  }));
+}
+
+const { entry, all } = Astro.props;
+const { Content } = await render(entry);
+
+const ui = t('es');
+const alt = counterpart(entry, all);
+const altUrl = alt ? entryUrl(alt) : undefined;
+const readMin = entry.data.readingMinutes ?? estimateReadingMinutes((entry as any).body);
+---
+
+<Base
+  lang="es"
+  title={`${entry.data.title} — Leonardo Solis`}
+  description={entry.data.description}
+  type="article"
+  publishedTime={entry.data.date}
+  image={entry.data.cover}
+  canonical={entryUrl(entry)}
+  alternateUrl={altUrl}
+>
+  <article>
+    <header class="page-header">
+      <p class="kicker">blog · {formatDate(entry.data.date, 'es')} · {readMin} {ui.blog.readingTime}</p>
+      <h1 class="page-title">{entry.data.title}</h1>
+      <p class="page-subtitle">{entry.data.description}</p>
+    </header>
+    <div class="page-body">
+      {altUrl && (
+        <a href={altUrl} class="lang-switch">{ui.blog.otherLang} →</a>
+      )}
+      <div class="prose">
+        <Content />
+      </div>
+      <a href="/es/blog" class="back-link">{ui.blog.back}</a>
+    </div>
+  </article>
+</Base>

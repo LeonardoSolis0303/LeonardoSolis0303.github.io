@@ -1,0 +1,70 @@
+---
+import { type Lang } from '../lib/i18n';
+
+interface Props {
+  title: string;
+  description: string;
+  lang: Lang;
+  /** URL canónica relativa al "site" (ej. "/en/blog/foo"). Si no se da, usa pathname actual. */
+  canonical?: string;
+  /** URL relativa de la versión en el otro idioma (para hreflang). Opcional. */
+  alternateUrl?: string;
+  /** "article" para posts/proyectos individuales, "website" para listings/landing */
+  type?: 'website' | 'article';
+  /** Imagen Open Graph absoluta o relativa (ej. "/assets/portada.jpg"). Opcional. */
+  image?: string;
+  /** Si es un artículo, fecha de publicación */
+  publishedTime?: Date;
+}
+
+const {
+  title,
+  description,
+  lang,
+  canonical,
+  alternateUrl,
+  type = 'website',
+  image,
+  publishedTime,
+} = Astro.props;
+
+const path = canonical ?? Astro.url.pathname;
+const canonicalAbs = new URL(path, Astro.site).toString();
+const ogImageAbs = image ? new URL(image, Astro.site).toString() : new URL('/assets/pizarron.jpg', Astro.site).toString();
+
+const otherLang: Lang = lang === 'en' ? 'es' : 'en';
+const alternateAbs = alternateUrl ? new URL(alternateUrl, Astro.site).toString() : null;
+const xDefaultAbs = lang === 'en' ? canonicalAbs : (alternateAbs ?? canonicalAbs);
+---
+
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonicalAbs} />
+
+<!-- hreflang: misma página en cada idioma + x-default -->
+<link rel="alternate" hreflang={lang} href={canonicalAbs} />
+{alternateAbs && (
+  <link rel="alternate" hreflang={otherLang} href={alternateAbs} />
+)}
+<link rel="alternate" hreflang="x-default" href={xDefaultAbs} />
+
+<!-- Open Graph -->
+<meta property="og:type" content={type} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonicalAbs} />
+<meta property="og:image" content={ogImageAbs} />
+<meta property="og:locale" content={lang === 'en' ? 'en_US' : 'es_MX'} />
+{otherLang && alternateAbs && (
+  <meta property="og:locale:alternate" content={otherLang === 'en' ? 'en_US' : 'es_MX'} />
+)}
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImageAbs} />
+
+{type === 'article' && publishedTime && (
+  <meta property="article:published_time" content={publishedTime.toISOString()} />
+)}

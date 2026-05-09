@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://leosolis.github.io/sitemap.xml

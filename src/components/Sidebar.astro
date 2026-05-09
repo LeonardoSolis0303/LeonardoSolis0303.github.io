@@ -1,0 +1,71 @@
+---
+import { t, routes, type Lang } from '../lib/i18n';
+
+interface Props {
+  lang: Lang;
+  /** Variante visual del sidebar (claro u oscuro tipo pizarrón) */
+  variant?: 'dark' | 'light';
+  /** URL en el otro idioma para el toggle ES/EN. Si no se provee, va al home del otro idioma. */
+  altUrl?: string;
+}
+
+const { lang, variant = 'light', altUrl } = Astro.props;
+const r = routes[lang];
+const otherLang: Lang = lang === 'en' ? 'es' : 'en';
+const otherR = routes[otherLang];
+const otherUrl = altUrl ?? otherR.home;
+const ui = t(lang);
+
+const path = Astro.url.pathname;
+
+const isActive = (href: string) => {
+  // Quita slashes finales para comparar de forma estable
+  const norm = (s: string) => s.replace(/\/$/, '') || '/';
+  return norm(path) === norm(href) || norm(path).startsWith(norm(href) + '/');
+};
+
+const navItems = [
+  { href: r.home,     label: ui.nav.home },
+  { href: r.about,    label: ui.nav.about },
+  { href: r.projects, label: ui.nav.projects },
+  { href: r.blog,     label: ui.nav.blog },
+  { href: r.contact,  label: ui.nav.contact },
+];
+
+const sidebarClass = `sidebar${variant === 'dark' ? ' sidebar--dark' : ''}`;
+---
+
+<nav class={sidebarClass} aria-label={lang === 'en' ? 'Main navigation' : 'Navegación principal'}>
+  <a href={r.home} class="sidebar__brand">
+    <div class="sidebar__monogram">L.S.</div>
+    <div class="sidebar__name">Leonardo Solis</div>
+  </a>
+
+  <div class="sidebar__nav">
+    {navItems.map(item => (
+      <a
+        href={item.href}
+        class:list={['sidebar__link', { 'sidebar__link--active': isActive(item.href) }]}
+      >
+        {item.label}
+      </a>
+    ))}
+  </div>
+
+  <div class="sidebar__footer">
+    <a href="https://github.com/" class="sidebar__social" rel="me">GitHub</a>
+    <a href="https://linkedin.com/in/" class="sidebar__social" rel="me">LinkedIn</a>
+
+    <div class="sidebar__lang" aria-label={lang === 'en' ? 'Language' : 'Idioma'}>
+      <a
+        href={lang === 'en' ? Astro.url.pathname : otherUrl}
+        class:list={['', { 'is-active': lang === 'en' }]}
+      >EN</a>
+      <span class="sidebar__lang-sep">·</span>
+      <a
+        href={lang === 'es' ? Astro.url.pathname : otherUrl}
+        class:list={['', { 'is-active': lang === 'es' }]}
+      >ES</a>
+    </div>
+  </div>
+</nav>
