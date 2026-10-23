@@ -15,6 +15,8 @@ interface Props {
   image?: string;
   /** Si es un artículo, fecha de publicación */
   publishedTime?: Date;
+  modifiedTime?: Date;
+  noindex?: boolean;
 }
 
 const {
@@ -26,19 +28,36 @@ const {
   type = 'website',
   image,
   publishedTime,
+  modifiedTime,
+  noindex = false,
 } = Astro.props;
 
-const path = canonical ?? Astro.url.pathname;
+const normalizePath = (path: string) => path === '/' ? '/en/' : path.replace(/\/?$/, '/');
+const path = normalizePath(canonical ?? Astro.url.pathname);
 const canonicalAbs = new URL(path, Astro.site).toString();
 const ogImageAbs = image ? new URL(image, Astro.site).toString() : new URL('/assets/pizarron.jpg', Astro.site).toString();
 
 const otherLang: Lang = lang === 'en' ? 'es' : 'en';
-const alternateAbs = alternateUrl ? new URL(alternateUrl, Astro.site).toString() : null;
+const alternateAbs = alternateUrl ? new URL(normalizePath(alternateUrl), Astro.site).toString() : null;
 const xDefaultAbs = lang === 'en' ? canonicalAbs : (alternateAbs ?? canonicalAbs);
+const structuredData = type === 'article' && publishedTime ? {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: title,
+  description,
+  url: canonicalAbs,
+  mainEntityOfPage: canonicalAbs,
+  inLanguage: lang,
+  datePublished: publishedTime.toISOString(),
+  ...(modifiedTime ? { dateModified: modifiedTime.toISOString() } : {}),
+  ...(image ? { image: ogImageAbs } : {}),
+  author: { '@type': 'Person', name: 'Leonardo Solis', url: new URL('/en/', Astro.site).toString() },
+} : null;
 ---
 
 <title>{title}</title>
 <meta name="description" content={description} />
+{noindex && <meta name="robots" content="noindex, nofollow" />}
 <link rel="canonical" href={canonicalAbs} />
 
 <!-- hreflang: misma página en cada idioma + x-default -->
@@ -68,3 +87,5 @@ const xDefaultAbs = lang === 'en' ? canonicalAbs : (alternateAbs ?? canonicalAbs
 {type === 'article' && publishedTime && (
   <meta property="article:published_time" content={publishedTime.toISOString()} />
 )}
+{type === 'article' && modifiedTime && <meta property="article:modified_time" content={modifiedTime.toISOString()} />}
+{structuredData && <script type="application/ld+json" set:html={JSON.stringify(structuredData).replace(/</g, '\\u003c')} />}

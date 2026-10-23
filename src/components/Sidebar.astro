@@ -1,15 +1,18 @@
 ---
 import { t, routes, type Lang } from '../lib/i18n';
+import { data } from '../lib/site';
 
 interface Props { lang: Lang; variant?: 'dark' | 'light'; altUrl?: string; }
 const { lang, variant = 'light', altUrl } = Astro.props;
 const r = routes[lang];
 const otherLang: Lang = lang === 'en' ? 'es' : 'en';
-const otherUrl = altUrl ?? routes[otherLang].home;
+const otherUrl = (altUrl ?? routes[otherLang].home).replace(/\/?$/, '/');
 const ui = t(lang);
 const path = Astro.url.pathname;
 const norm = (s: string) => s.replace(/\/$/, '') || '/';
-const isActive = (href: string) => norm(path) === norm(href) || norm(path).startsWith(norm(href) + '/');
+const isActive = (href: string) => href === r.home
+  ? norm(path) === norm(href) || (lang === 'en' && norm(path) === '/')
+  : norm(path) === norm(href) || norm(path).startsWith(norm(href) + '/');
 
 const navItems = [
   { href: r.home, label: ui.nav.home },
@@ -37,7 +40,7 @@ const sidebarClass = `sidebar${variant === 'dark' ? ' sidebar--dark' : ''}`;
 
   <div class="sidebar__footer">
     <a href="https://github.com/LeonardoSolis0303" class="sidebar__social" rel="me">GitHub</a>
-    <a href="https://linkedin.com/in/" class="sidebar__social" rel="me">LinkedIn</a>
+    {data.CV.contact.linkedin && <a href={'https://' + data.CV.contact.linkedin} class="sidebar__social" rel="me">LinkedIn</a>}
     <div class="sidebar__lang" aria-label={lang === 'en' ? 'Language' : 'Idioma'}>
       <a href={lang === 'en' ? Astro.url.pathname : otherUrl} class:list={[{ 'is-active': lang === 'en' }]}>EN</a>
       <span class="sidebar__lang-sep">·</span>

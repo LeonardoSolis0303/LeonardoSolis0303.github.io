@@ -4,12 +4,12 @@ export const LANGS: Lang[] = ['en', 'es'];
 
 export const routes = {
   en: {
-    home: '/en', cv: '/en/cv', research: '/en/research', quant: '/en/quant',
-    teaching: '/en/teaching', reviews: '/en/reviews', blog: '/en/blog', contact: '/en/contact',
+    home: '/en/', cv: '/en/cv/', research: '/en/research/', quant: '/en/quant/',
+    teaching: '/en/teaching/', reviews: '/en/reviews/', blog: '/en/blog/', contact: '/en/contact/',
   },
   es: {
-    home: '/es', cv: '/es/cv', research: '/es/research', quant: '/es/quant',
-    teaching: '/es/ensenanza', reviews: '/es/resenas', blog: '/es/bitacora', contact: '/es/contacto',
+    home: '/es/', cv: '/es/cv/', research: '/es/research/', quant: '/es/quant/',
+    teaching: '/es/ensenanza/', reviews: '/es/resenas/', blog: '/es/bitacora/', contact: '/es/contacto/',
   },
 } as const;
 
@@ -53,5 +53,5 @@ export const t = (lang: Lang) => ui[lang];
 export function formatDate(d: Date | string, lang: Lang): string {
   const date = typeof d === 'string' ? new Date(d) : d;
   if (Number.isNaN(date.getTime())) return String(d);
-  return date.toLocaleDateString(lang === 'en' ? 'en-US' : 'es-MX', { year: 'numeric', month: 'long', day: 'numeric' });
+  return date.toLocaleDateString(lang === 'en' ? 'en-US' : 'es-MX', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
 }

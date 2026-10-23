@@ -1,38 +1,17 @@
 ---
 import Base from '../../layouts/Base.astro';
+import { data } from '../../lib/site';
+const contact = data.CV.contact;
 ---
-<Base
-  lang="en"
-  title="Contact — Leonardo Solis"
-  description="Contact information and CV."
-  alternateUrl="/es/contacto"
-  canonical="/en/contact"
->
-  <header class="page-header">
-    <p class="kicker">contact</p>
-    <h1 class="page-title">Contact</h1>
-    <p class="page-subtitle">Reach out, or grab the CV.</p>
-  </header>
-
+<Base lang="en" title="Contact — Leonardo Solis" description="Profiles and background." alternateUrl="/es/contacto/" canonical="/en/contact/">
+  <header class="page-header"><p class="kicker">Contact</p><h1 class="page-title">Contact</h1><p class="page-subtitle">Profiles and background.</p></header>
   <div class="page-body">
-    <div class="prose">
-      <p>
-        For research, collaboration, or work inquiries, the best way to reach
-        me is by email.
-      </p>
-      <ul>
-        <li><strong>Email:</strong> <a href="mailto:tucorreo@ejemplo.com">tucorreo@ejemplo.com</a></li>
-        <li><strong>GitHub:</strong> <a href="https://github.com/">github.com/leosolis</a></li>
-        <li><strong>LinkedIn:</strong> <a href="https://linkedin.com/in/">linkedin.com/in/leosolis</a></li>
-        <li><strong>Location:</strong> Mexico City, MX</li>
-      </ul>
-    </div>
-
-    <div style="margin-top:32px">
-      <a href="/assets/cv.pdf" download class="btn-outline">
-        <span style="font-size:11px">↓</span>
-        Download CV (PDF)
-      </a>
-    </div>
+    <div class="prose"><ul>
+      {contact.email && <li><strong>Email:</strong> <a href={'mailto:' + contact.email}>{contact.email}</a></li>}
+      <li><strong>GitHub:</strong> <a href={'https://' + contact.github}>{contact.github}</a></li>
+      {contact.linkedin && <li><strong>LinkedIn:</strong> <a href={'https://' + contact.linkedin}>{contact.linkedin}</a></li>}
+      <li><strong>Location:</strong> {contact.ciudad}</li>
+    </ul></div>
+    <a href="/en/cv/" class="btn-outline">View CV</a>
   </div>
 </Base>

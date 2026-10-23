@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://leosolis.github.io/sitemap.xml
+Sitemap: https://leonardosolis0303.github.io/sitemap.xml
