@@ -27,7 +27,6 @@ export function slugify(input: string): string {
 export function quantSlug(item: any) { return slugify(item.titulo_en || item.titulo); }
 export function researchSlug(item: any) { return item.id || slugify(item.titulo_en || item.titulo); }
 export function reviewSlug(item: any) { return slugify(item.titulo); }
-export function blogSlug(item: any) { return slugify(item.titulo_en || item.titulo); }
 export function teachingItems() {
   const e: any = data.ENSENANZA;
   return [
@@ -45,7 +44,7 @@ export function routeFor(lang: Lang, section: string, slug?: string): string {
     reviews: { en:'/en/reviews', es:'/es/resenas' }, blog: { en:'/en/blog', es:'/es/bitacora' },
   };
   const b = base[section][lang];
-  return slug ? `${b}/${slug}` : b;
+  return slug ? `${b}/${slug}/` : `${b}/`;
 }
 
 export const statusInfo: Record<string, any> = {

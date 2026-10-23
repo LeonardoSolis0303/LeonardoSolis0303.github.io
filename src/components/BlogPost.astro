@@ -1,0 +1,35 @@
+---
+import { render } from 'astro:content';
+import 'katex/dist/katex.min.css';
+import Base from '../layouts/Base.astro';
+import { t, formatDate, routes } from '../lib/i18n';
+import { catClass } from '../lib/site';
+import { alternatePostUrl, postUrl, readingMinutes, type Post } from '../lib/blog';
+
+interface Props { post: Post; }
+const { post } = Astro.props;
+const { lang, title, description, date, updated, category, featured, draft, image, imageAlt, caption, tags } = post.data;
+const ui = t(lang);
+const { Content } = await render(post);
+const alternateUrl = await alternatePostUrl(post);
+---
+
+<Base lang={lang} title={title + ' — Leonardo Solis'} description={description}
+  canonical={postUrl(post)} alternateUrl={alternateUrl} type="article"
+  publishedTime={date} modifiedTime={updated} image={image} noindex={draft}>
+  <article class="page-body detail-page">
+    <a href={routes[lang].blog} class="back-link">{ui.blog.back}</a>
+    {draft && <p class="draft-notice">{lang === 'es' ? 'Borrador · visible solo en la vista previa local' : 'Draft · visible only in the local preview'}</p>}
+    <div class="detail-meta">
+      <time datetime={date.toISOString().slice(0, 10)}>{formatDate(date, lang)}</time>
+      <span class:list={['chip', catClass(category)]}>{ui.blog.cats[category]}</span>
+      {featured && <span class="featured-star">★ {ui.blog.featured}</span>}
+      <span>{readingMinutes(post)} {ui.blog.readingTime}</span>
+    </div>
+    <h1 class="detail-title">{title}</h1>
+    {updated && <p class="post-updated">{lang === 'es' ? 'Actualizado' : 'Updated'}: <time datetime={updated.toISOString().slice(0, 10)}>{formatDate(updated, lang)}</time></p>}
+    {image && <figure class="cover-figure"><img src={image} alt={imageAlt} />{caption && <figcaption>{caption}</figcaption>}</figure>}
+    <div class="prose"><Content /></div>
+    {tags.length > 0 && <ul class="post-tags" aria-label={lang === 'es' ? 'Etiquetas' : 'Tags'}>{tags.map((tag) => <li>{tag}</li>)}</ul>}
+  </article>
+</Base>

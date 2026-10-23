@@ -1,4 +1,6 @@
 import { defineConfig } from 'astro/config';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
 
 // IMPORTANTE: cambia "site" por tu URL real cuando despliegues.
 // Si tu repo se llama exactamente "tuusuario.github.io", el "site" es
@@ -8,9 +10,12 @@ import { defineConfig } from 'astro/config';
 export default defineConfig({
   site: 'https://leonardosolis0303.github.io',
   // base: '/mi-sitio/',
-  trailingSlash: 'never',
+  trailingSlash: 'always',
   build: { format: 'directory' },
+  server: { allowedHosts: ['terminal.local'] },
   markdown: {
+    remarkPlugins: [remarkMath],
+    rehypePlugins: [rehypeKatex],
     shikiConfig: {
       theme: 'github-dark-dimmed',
       wrap: true,

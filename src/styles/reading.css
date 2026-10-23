@@ -1,0 +1,35 @@
+/* Small text remains legible without changing the site's palette or layout. */
+.sidebar__link { font-size: 12px; color: #bdb8ad; font-weight: 400; }
+.sidebar__name { font-size: 10px; opacity: 1; color: var(--green-light); }
+.sidebar__social { font-size: 11px; color: #bdb8ad; opacity: 1; }
+.sidebar__lang { font-size: 12px; }
+.sidebar__lang a { color: #bdb8ad; opacity: 1; }
+.sidebar__lang a.is-active { color: var(--green-light); }
+.home .home__blurb-eyebrow, .home .home__section-title, .home .hero__eyebrow { font-size: 11px; font-weight: 400; }
+.home .hero__role, .home .home__shortcut-sub, .home .home__entry-date { font-size: 11px; opacity: 1; font-weight: 400; }
+.home .home__entry-desc { font-size: 15px; }
+.home .home__shortcut-sub { flex-shrink: 1; text-align: right; }
+.entry__date, .detail-meta, .chip, .filter-btn, .back-link { font-size: 11px; }
+.back-link { color: #3f6247; opacity: 1; }
+.detail-title { line-height: 1.15; overflow-wrap: anywhere; }
+.post-updated { color: var(--dim); font-size: 14px; margin-bottom: 20px; }
+.draft-notice { border: 1px solid var(--rule); padding: 12px 16px; margin: 16px 0; font-size: 15px; }
+.post-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 32px; }
+.post-tags li { border: 1px solid var(--rule); border-radius: 3px; padding: 4px 10px; font-size: 13px; }
+.prose { min-width: 0; overflow-wrap: break-word; }
+.prose .katex { font-size: 1.08em; }
+.prose .katex-display { overflow-x: auto; overflow-y: hidden; padding: 8px 0; max-width: 100%; }
+.prose .katex-display > .katex { white-space: nowrap; }
+.prose table { display: block; max-width: 100%; overflow-x: auto; border-collapse: collapse; margin: 1.4em 0; }
+.prose th, .prose td { padding: 8px 14px; border: 1px solid var(--rule); text-align: left; }
+.prose th { font-weight: 600; }
+.prose h2, .prose h3, .prose h4 { scroll-margin-top: 24px; }
+:focus-visible { outline: 2px solid var(--green-light); outline-offset: 4px; }
+
+@media (max-width: 720px) {
+  .sidebar { gap: 12px; }
+  .sidebar__brand, .sidebar__nav { flex: 0 0 100%; }
+  .sidebar__link { font-size: 11px; min-height: 32px; }
+  .home__grid, .home__grid > div, .main { min-width: 0; }
+  .home .home__shortcut { flex-wrap: wrap; }
+}

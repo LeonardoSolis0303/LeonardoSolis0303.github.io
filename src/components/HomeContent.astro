@@ -1,17 +1,19 @@
 ---
 import '../styles/home.css';
-import { t, routes, type Lang } from '../lib/i18n';
-import { data, g, routeFor, blogSlug, researchSlug, quantSlug } from '../lib/site';
+import { t, routes, formatDate, type Lang } from '../lib/i18n';
+import { data, g, routeFor, researchSlug, quantSlug } from '../lib/site';
+import { getPosts, postUrl } from '../lib/blog';
 interface Props { lang: Lang; }
 const { lang } = Astro.props;
 const ui = t(lang);
 const r = routes[lang];
-const latest = data.BITACORA[0];
-const recentPosts = data.BITACORA.slice(0,3);
+const posts = await getPosts(lang);
+const latest = posts[0];
+const recentPosts = posts.slice(0,3);
 const featuredResearch = data.RESEARCH.slice(0,3);
 const featuredQuant = data.QUANT.slice(0,2);
 const shortcuts = [
-  { label: ui.home.latestPost, sub: latest.fecha, href: routeFor(lang,'blog',blogSlug(latest)) },
+  ...(latest ? [{ label: ui.home.latestPost, sub: formatDate(latest.data.date, lang), href: postUrl(latest) }] : []),
   { label: ui.home.mathComps, sub: null, href: `${r.teaching}#problemas` },
   { label: ui.home.problems, sub: null, href: `${r.teaching}#problemas` },
   { label: ui.home.classes, sub: null, href: `${r.teaching}#presenciales` },
@@ -43,16 +45,16 @@ const shortcuts = [
             {s.sub && <span class="home__shortcut-sub">{s.sub}</span>}
           </a>
         ))}
-        <a href="/assets/cv.pdf" download class="btn-outline btn-outline--dark home__cv"><span style="font-size:11px">↓</span>{ui.home.downloadCV}</a>
+        <a href={r.cv} class="btn-outline btn-outline--dark home__cv">{lang === 'es' ? 'Ver CV' : 'View CV'}</a>
       </div>
     </div>
 
     <section class="home__section">
       <div class="home__section-title"><span>{ui.home.recentPosts}</span><a href={r.blog}>{ui.home.seeAll} →</a></div>
       {recentPosts.map(p => (
-        <a href={routeFor(lang,'blog',blogSlug(p))} class="home__entry">
-          <div class="home__entry-date">{p.fecha}</div>
-          <div><div class="home__entry-title">{p.destacada ? '★ ' : ''}{g(p,'titulo',lang)}</div><p class="home__entry-desc">{g(p,'extracto',lang)}</p></div>
+        <a href={postUrl(p)} class="home__entry">
+          <div class="home__entry-date"><time datetime={p.data.date.toISOString().slice(0,10)}>{formatDate(p.data.date, lang)}</time></div>
+          <div><div class="home__entry-title">{p.data.featured ? '★ ' : ''}{p.data.title}{p.data.draft && ' · ' + (lang === 'es' ? 'Borrador' : 'Draft')}</div><p class="home__entry-desc">{p.data.description}</p></div>
         </a>
       ))}
     </section>

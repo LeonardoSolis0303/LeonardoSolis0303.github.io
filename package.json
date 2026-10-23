@@ -6,11 +6,17 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro build",
+    "build": "astro build && node scripts/check-site.mjs",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "new:post": "node scripts/new-post.mjs",
+    "check:site": "node scripts/check-site.mjs",
+    "test": "node scripts/test-publishing.mjs"
   },
   "dependencies": {
-    "astro": "^6.2.1"
+    "astro": "^6.2.1",
+    "katex": "^0.16.47",
+    "rehype-katex": "^7.0.1",
+    "remark-math": "^6.0.0"
   }
 }
