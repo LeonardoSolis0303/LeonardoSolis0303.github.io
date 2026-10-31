@@ -1,4 +1,3 @@
-/* Data ported from original React site (mi-sitio/data). */
 export const SITE_DATA = {
   "CV": {
     "pdfUrl": "",
@@ -180,69 +179,7 @@ export const SITE_DATA = {
       ]
     }
   },
-  "RESENAS": [
-    {
-      "id": 1,
-      "titulo": "El invencible verano de Liliana",
-      "autor": "Cristina Rivera Garza",
-      "score": 9.5,
-      "cat": "noficcion",
-      "catLabel": "No ficción",
-      "catLabel_en": "Non-fiction",
-      "año": 2024,
-      "portada": null,
-      "extracto": "Un libro que no te deja en paz. Rivera Garza reconstruye la vida y muerte de su hermana con una precisión que duele.",
-      "extracto_en": "A book that does not leave you alone. Rivera Garza reconstructs her sister's life and death with a precision that hurts.",
-      "resena": "Un libro que no te deja en paz. Rivera Garza reconstruye la vida y muerte de su hermana con una precisión que duele — y al hacerlo, dice algo importante sobre la memoria, la escritura y la violencia. Lo leí de un jalón y tardé días en procesar.\n\nNo es un libro fácil, pero sí es un libro necesario. La forma en que la autora mezcla lo personal con lo político, lo íntimo con lo documental, es magistral.",
-      "resena_en": "A book that does not leave you alone. Rivera Garza reconstructs her sister's life and death with a precision that hurts — and in doing so, says something important about memory, writing, and violence. I read it in one sitting and took days to process it.\n\nIt is not an easy book, but it is a necessary one. The way the author blends the personal with the political, the intimate with the documentary, is masterful."
-    },
-    {
-      "id": 2,
-      "titulo": "Cartas a quien pretende enseñar",
-      "autor": "Paulo Freire",
-      "score": 9.5,
-      "cat": "noficcion",
-      "catLabel": "No ficción",
-      "catLabel_en": "Non-fiction",
-      "año": 2024,
-      "portada": null,
-      "extracto": "Leí esto después de años dando clases y fue como ponerle palabras a algo que ya intuía.",
-      "extracto_en": "I read this after years of teaching and it felt like putting words to something I already sensed.",
-      "resena": "Leí esto después de años dando clases y fue como ponerle palabras a algo que ya intuía pero no podía articular. Freire habla de enseñar como un acto de humildad y curiosidad mutua. No como transmisión de contenido, sino como diálogo.\n\nCada carta es corta pero densa. No es un manual de pedagogía — es una invitación a repensar la relación entre quien enseña y quien aprende.",
-      "resena_en": "I read this after years of teaching and it felt like putting words to something I already sensed but could not articulate. Freire talks about teaching as an act of humility and mutual curiosity. Not as content transmission, but as dialogue.\n\nEach letter is short but dense. It is not a pedagogy manual — it is an invitation to rethink the relationship between teacher and learner."
-    },
-    {
-      "id": 3,
-      "titulo": "Cálculo, Vol. III",
-      "autor": "Jerrold E. Marsden & Anthony Tromba",
-      "score": 8.5,
-      "cat": "ciencias",
-      "catLabel": "Ciencias & Matemáticas",
-      "catLabel_en": "Science & Mathematics",
-      "año": 2023,
-      "portada": null,
-      "extracto": "El mejor libro de cálculo multivariable que he encontrado. Honesto — no te esconde la geometría detrás de fórmulas.",
-      "extracto_en": "The best multivariable calculus book I have found. Honest — it does not hide the geometry behind formulas.",
-      "resena": "El mejor libro de cálculo multivariable que he encontrado. No es el más fácil, pero es el más honesto — no te esconde la geometría detrás de fórmulas. Las visualizaciones son excelentes y los problemas son genuinamente interesantes.\n\nLo usé para dar clases y también para estudiar. Tiene ese balance raro entre rigor y accesibilidad que muchos libros de texto sacrifican.",
-      "resena_en": "The best multivariable calculus book I have found. It is not the easiest, but it is the most honest — it does not hide the geometry behind formulas. The visualizations are excellent and the problems are genuinely interesting.\n\nI used it both for teaching and studying. It has that rare balance between rigor and accessibility that many textbooks sacrifice."
-    },
-    {
-      "id": 4,
-      "draft": true,
-      "titulo": "Relatividad para futuros físicos",
-      "autor": "Placeholder autor",
-      "score": 4,
-      "cat": "ciencias",
-      "catLabel": "Ciencias & Matemáticas",
-      "catLabel_en": "Science & Mathematics",
-      "año": 2023,
-      "portada": null,
-      "extracto": "Tenía expectativas altas y me decepcionó. El tratamiento es superficial — más divulgación que física.",
-      "extracto_en": "I had high expectations and was disappointed. The treatment is superficial — more popular science than physics.",
-      "resena": "Tenía expectativas altas y me decepcionó bastante. El título promete algo para \"futuros físicos\" pero el tratamiento es superficial — más divulgación que física. Para alguien que ya estudia la carrera, no aporta mucho.\n\nNo es que esté mal escrito. Es que el nivel de matemáticas es demasiado bajo para el público que supuestamente busca.",
-      "resena_en": "I had high expectations and was quite disappointed. The title promises something for \"future physicists\" but the treatment is superficial — more popular science than physics. For someone already studying the degree, it does not add much.\n\nIt is not badly written. The level of mathematics is just too low for the audience it supposedly targets."
-    }
-  ],
+  "RESENAS": [],
   "RESEARCH": [
     {
       "id": "memoria",
@@ -401,72 +338,10 @@ export const SITE_DATA = {
         "Mathematica"
       ],
       "link": null
-    },
-    {
-      "titulo": "Prosperity 4 — Trading Competition",
-      "titulo_en": "Prosperity 4 — Trading Competition",
-      "periodo": "2023",
-      "org": "IMC Trading",
-      "desc": "Finalista en la competencia algorítmica de trading de IMC. Estrategias para dos productos con arquitectura de market-making pasivo y backbone de precios lineal.",
-      "desc_en": "Finalist in IMC's algorithmic trading competition. Strategies for two products with passive market-making architecture and linear price backbone.",
-      "stack": [
-        "Python"
-      ],
-      "link": null
     }
   ],
   "ENSENANZA": {
-    "problemas": [
-      {
-        "titulo": "Olimpiada de Matemáticas — Geometría",
-        "titulo_en": "Mathematics Olympiad — Geometry",
-        "categoria": "Olimpiada",
-        "categoria_en": "Olympiad",
-        "año": "2024",
-        "desc": "Colección de problemas de geometría euclidiana que uso en preparación para olimpiadas. Énfasis en construcciones auxiliares y simetrías.",
-        "desc_en": "Collection of Euclidean geometry problems I use for olympiad preparation. Emphasis on auxiliary constructions and symmetries.",
-        "enunciado": "En un triángulo ABC, sea M el punto medio de BC. La perpendicular a AM por M corta a AB y AC en P y Q respectivamente. Demuestra que BP·QC = MP·MQ.",
-        "enunciado_en": "In triangle ABC, let M be the midpoint of BC. The perpendicular to AM through M meets AB and AC at P and Q respectively. Prove that BP·QC = MP·MQ.",
-        "solucion": null,
-        "tags": [
-          "Geometría",
-          "Olimpiada"
-        ]
-      },
-      {
-        "titulo": "Olimpiada de Física — Mecánica",
-        "titulo_en": "Physics Olympiad — Mechanics",
-        "categoria": "Olimpiada",
-        "categoria_en": "Olympiad",
-        "año": "2024",
-        "desc": "Problemas de mecánica clásica al estilo IPhO. Conservación de energía, momento angular, sistemas no inerciales.",
-        "desc_en": "Classical mechanics problems in IPhO style. Energy conservation, angular momentum, non-inertial frames.",
-        "enunciado": "Un disco de masa M y radio R rueda sin deslizar dentro de un tazón hemisférico de radio 2R. Encuentra la frecuencia de oscilaciones pequeñas en torno al fondo.",
-        "enunciado_en": "A disk of mass M and radius R rolls without slipping inside a hemispherical bowl of radius 2R. Find the frequency of small oscillations about the bottom.",
-        "solucion": null,
-        "tags": [
-          "Mecánica",
-          "Olimpiada"
-        ]
-      },
-      {
-        "titulo": "Programación competitiva — DP sobre grafos",
-        "titulo_en": "Competitive programming — DP on graphs",
-        "categoria": "Programación",
-        "categoria_en": "Programming",
-        "año": "2025",
-        "desc": "Problemas de programación dinámica sobre grafos. Útiles tanto para concursos de algoritmos como para entrevistas técnicas.",
-        "desc_en": "Dynamic programming problems on graphs. Useful for algorithm contests and technical interviews alike.",
-        "enunciado": "Dado un grafo dirigido acíclico con pesos en las aristas, encuentra el camino de máximo peso entre dos nodos. Complejidad: O(V+E).",
-        "enunciado_en": "Given a directed acyclic graph with weighted edges, find the maximum-weight path between two nodes. Complexity: O(V+E).",
-        "solucion": null,
-        "tags": [
-          "Algoritmos",
-          "Grafos",
-          "DP"
-        ]
-      }
-    ],
+    "problemas": [],
     "presenciales": [
       {
         "titulo": "Sequoia — Curso de admisión ECOEMS",
