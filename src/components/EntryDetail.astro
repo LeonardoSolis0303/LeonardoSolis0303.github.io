@@ -1,0 +1,65 @@
+---
+import { render, type CollectionEntry } from 'astro:content';
+import 'katex/dist/katex.min.css';
+import Base from '../layouts/Base.astro';
+import { t, formatDate } from '../lib/i18n';
+import { lineClass, reviewCatClass, statusLabel, statusInfo } from '../lib/site';
+import { alternateEntryUrl, entryUrl, researchLine, reviewCategory, type PublicationSection } from '../lib/publications';
+
+interface Props {
+  section: PublicationSection;
+  entry: CollectionEntry<'reviews'> | CollectionEntry<'research'> | CollectionEntry<'quant'> | CollectionEntry<'teaching'>;
+}
+const { entry, section } = Astro.props;
+const d = entry.data as any;
+const lang = d.lang as 'es' | 'en';
+const ui = t(lang);
+const { Content } = await render(entry);
+const alternateUrl = await alternateEntryUrl(section, entry as any);
+const backUrl = entryUrl(section, { data: { lang, slug: '' } }).replace(/\/\/$/, '/');
+const canonical = entryUrl(section, { data: { lang, slug: d.slug } });
+const sectionLabel = { reviews: ui.reviews.title, research: ui.research.title, quant: ui.quant.title, teaching: ui.teaching.title }[section];
+const backLabel = { reviews: ui.reviews.back, research: ui.research.back, quant: ui.quant.back, teaching: ui.teaching.back }[section];
+const tags = section === 'quant' ? d.stack : d.tags;
+---
+<Base lang={lang} title={d.title + ' — ' + sectionLabel} description={d.description}
+  canonical={canonical} alternateUrl={alternateUrl} type="article"
+  publishedTime={d.date} modifiedTime={d.updated} image={d.image} noindex={d.draft}>
+  <article class="page-body detail-page">
+    <a href={backUrl} class="back-link">{backLabel}</a>
+    {d.draft && <p class="draft-notice">{lang === 'es' ? 'Borrador · visible solo en la vista previa local' : 'Draft · visible only in the local preview'}</p>}
+    <div class="detail-meta">
+      {section === 'reviews' && <>
+        <span class:list={['chip', reviewCatClass(d.category)]}>{reviewCategory(d.category, lang)}</span>
+        <span>{ui.reviews.status[d.status]}</span>
+        <span>{ui.reviews.score}: {d.score}/10</span>
+      </>}
+      {section === 'research' && <>
+        <span class:list={['chip', lineClass(d.line)]}>{researchLine(d.line, lang)}</span>
+        <span class:list={['status-pill', statusInfo[d.status]?.cls]}>{statusLabel(d.status, lang)}</span>
+      </>}
+      {section === 'teaching' && <span>{{
+        problemas: ui.teaching.problems,
+        presenciales: ui.teaching.presential,
+        universitarias: ui.teaching.university,
+      }[d.kind]}</span>}
+      {section === 'quant' && <span>{d.period}</span>}
+      <time datetime={d.date.toISOString().slice(0, 10)}>{formatDate(d.date, lang)}</time>
+    </div>
+    <h1 class="detail-title">{d.title}</h1>
+    {section === 'reviews' && <p class="detail-desc">{d.author} · {d.year}</p>}
+    {section === 'quant' && <div class="detail-grid">
+      <div><strong>{ui.quant.period}</strong><span>{d.period}</span></div>
+      <div><strong>{ui.quant.organization}</strong><span>{d.organization}</span></div>
+    </div>}
+    {section === 'research' && (d.place || d.advisor) && <div class="detail-grid">
+      {d.place && <div><strong>{ui.research.location}</strong><span>{d.place}</span></div>}
+      {d.advisor && <div><strong>{ui.research.advisor}</strong><span>{d.advisor}</span></div>}
+    </div>}
+    {section === 'teaching' && (d.period || d.year || d.category) && <p class="detail-desc">{[d.period || d.year, d.category].filter(Boolean).join(' · ')}</p>}
+    {d.updated && <p class="post-updated">{lang === 'es' ? 'Actualizado' : 'Updated'}: {formatDate(d.updated, lang)}</p>}
+    {d.image && <figure class="cover-figure"><img src={d.image} alt={d.imageAlt} />{d.caption && <figcaption>{d.caption}</figcaption>}</figure>}
+    <div class="prose"><Content /></div>
+    {tags?.length > 0 && <ul class="post-tags">{tags.map((tag: string) => <li>{tag}</li>)}</ul>}
+  </article>
+</Base>
