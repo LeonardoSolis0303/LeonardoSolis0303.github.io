@@ -1,7 +1,7 @@
 ---
 import '../styles/home.css';
 import { t, routes, formatDate, type Lang } from '../lib/i18n';
-import { data, g, routeFor, researchSlug, quantSlug } from '../lib/site';
+import { getEntries, entryUrl, researchLine } from '../lib/publications';
 import { getPosts, postUrl } from '../lib/blog';
 interface Props { lang: Lang; }
 const { lang } = Astro.props;
@@ -10,8 +10,8 @@ const r = routes[lang];
 const posts = await getPosts(lang);
 const latest = posts[0];
 const recentPosts = posts.slice(0,3);
-const featuredResearch = data.RESEARCH.slice(0,3);
-const featuredQuant = data.QUANT.slice(0,2);
+const featuredResearch = (await getEntries('research',lang)).slice(0,3);
+const featuredQuant = (await getEntries('quant',lang)).slice(0,2);
 const shortcuts = [
   ...(latest ? [{ label: ui.home.latestPost, sub: formatDate(latest.data.date, lang), href: postUrl(latest) }] : []),
   { label: ui.home.mathComps, sub: null, href: `${r.teaching}#problemas` },
@@ -62,9 +62,9 @@ const shortcuts = [
     <section class="home__section">
       <div class="home__section-title"><span>{ui.home.featuredResearch}</span><a href={r.research}>{ui.home.seeAll} →</a></div>
       {featuredResearch.map(p => (
-        <a href={routeFor(lang,'research',researchSlug(p))} class="home__entry">
-          <div class="home__entry-date">{g(p,'lineaLabel',lang)}</div>
-          <div><div class="home__entry-title">{g(p,'titulo',lang)}</div><p class="home__entry-desc">{g(p,'desc',lang)}</p></div>
+        <a href={entryUrl('research',p)} class="home__entry">
+          <div class="home__entry-date">{researchLine(p.data.line,lang)}</div>
+          <div><div class="home__entry-title">{p.data.title}</div><p class="home__entry-desc">{p.data.description}</p></div>
         </a>
       ))}
     </section>
@@ -72,9 +72,9 @@ const shortcuts = [
     <section class="home__section">
       <div class="home__section-title"><span>{ui.home.featuredQuant}</span><a href={r.quant}>{ui.home.seeAll} →</a></div>
       {featuredQuant.map(p => (
-        <a href={routeFor(lang,'quant',quantSlug(p))} class="home__entry">
-          <div class="home__entry-date">{p.periodo}</div>
-          <div><div class="home__entry-title">{g(p,'titulo',lang)}</div><p class="home__entry-desc">{g(p,'desc',lang)}</p></div>
+        <a href={entryUrl('quant',p)} class="home__entry">
+          <div class="home__entry-date">{p.data.period}</div>
+          <div><div class="home__entry-title">{p.data.title}</div><p class="home__entry-desc">{p.data.description}</p></div>
         </a>
       ))}
     </section>
