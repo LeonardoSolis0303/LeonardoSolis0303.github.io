@@ -228,6 +228,7 @@ export const SITE_DATA = {
     },
     {
       "id": 4,
+      "draft": true,
       "titulo": "Relatividad para futuros físicos",
       "autor": "Placeholder autor",
       "score": 4,

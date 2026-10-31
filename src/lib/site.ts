@@ -1,7 +1,10 @@
 import { SITE_DATA } from '../data/siteData';
 import type { Lang } from './i18n';
 
-export const data = SITE_DATA;
+export const data = {
+  ...SITE_DATA,
+  RESENAS: SITE_DATA.RESENAS.filter((review) => !('draft' in review && review.draft)),
+};
 
 export function g(obj: any, field: string, lang: Lang): string {
   if (!obj) return '';
