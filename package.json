@@ -11,7 +11,8 @@
     "astro": "astro",
     "new:post": "node scripts/new-post.mjs",
     "check:site": "node scripts/check-site.mjs",
-    "test": "node scripts/test-publishing.mjs"
+    "test": "node scripts/test-publishing.mjs",
+    "new:entry": "node scripts/new-entry.mjs"
   },
   "dependencies": {
     "astro": "^6.2.1",
