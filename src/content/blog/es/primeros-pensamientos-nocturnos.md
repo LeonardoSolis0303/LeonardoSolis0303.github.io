@@ -2,6 +2,7 @@
 title: "Primeros pensamientos nocturnos"
 description: "Mi intención es dejar un testimonio, evidencia de quién era yo y qué pensaba, qué pienso hoy."
 date: "2026-10-31"
+time: "01:32"
 lang: "es"
 slug: "primeros-pensamientos-nocturnos"
 category: "personal"
@@ -9,8 +10,6 @@ tags: ["escritura", "reflexiones"]
 featured: false
 draft: false
 ---
-
-*31 de octubre de 2026, 1:32 a. m.*
 
 Escribir con intención comparte su naturaleza espontánea con otras actividades, digamos, de carácter artístico. No se le puede perseguir; llega cuando uno está quieto y, aunque sea de imprevisto, adquiere propósito casi de inmediato. Para algunos de nosotros constituye una necesidad. En mi caso, he notado que particularmente en momentos de profunda evolución es cuando más se presenta: la necesidad de escribir.
 

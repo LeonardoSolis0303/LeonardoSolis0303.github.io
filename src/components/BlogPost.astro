@@ -8,7 +8,7 @@ import { alternatePostUrl, postUrl, readingMinutes, type Post } from '../lib/blo
 
 interface Props { post: Post; }
 const { post } = Astro.props;
-const { lang, title, description, date, updated, category, featured, draft, image, imageAlt, caption, tags } = post.data;
+const { lang, title, description, date, time, updated, category, featured, draft, image, imageAlt, caption, tags } = post.data;
 const ui = t(lang);
 const { Content } = await render(post);
 const alternateUrl = await alternatePostUrl(post);
@@ -21,7 +21,7 @@ const alternateUrl = await alternatePostUrl(post);
     <a href={routes[lang].blog} class="back-link">{ui.blog.back}</a>
     {draft && <p class="draft-notice">{lang === 'es' ? 'Borrador · visible solo en la vista previa local' : 'Draft · visible only in the local preview'}</p>}
     <div class="detail-meta">
-      <time datetime={date.toISOString().slice(0, 10)}>{formatDate(date, lang)}</time>
+      <time datetime={date.toISOString().slice(0, 10)}>{formatDate(date, lang)}{time && ` · ${time}`}</time>
       <span class:list={['chip', catClass(category)]}>{ui.blog.cats[category]}</span>
       {featured && <span class="featured-star">★ {ui.blog.featured}</span>}
       <span>{readingMinutes(post)} {ui.blog.readingTime}</span>

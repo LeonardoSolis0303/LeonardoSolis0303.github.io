@@ -12,6 +12,7 @@ const blog = defineCollection({
     description: z.string().min(1),
     date: z.coerce.date(),
     updated: z.coerce.date().optional(),
+    time: z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/).optional(),
     lang: z.enum(['es', 'en']),
     slug: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
     category: z.enum(['fisica', 'quant', 'matematicas', 'mercados', 'personal']).default('personal'),
