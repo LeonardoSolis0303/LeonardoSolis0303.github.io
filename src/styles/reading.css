@@ -72,7 +72,7 @@
 .detail-page .prose li,
 .detail-page .prose blockquote {
   text-align: start;
-  word-spacing: 0.085em;
+  word-spacing: 0.15em;
   letter-spacing: 0.006em;
   font-kerning: normal;
 }
