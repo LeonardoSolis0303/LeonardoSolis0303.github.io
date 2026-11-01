@@ -64,3 +64,35 @@
   .detail-page .detail-meta { letter-spacing: 0.04em; }
   .detail-page .detail-grid { grid-template-columns: 1fr; }
 }
+
+
+/* Legibility: EB Garamond benefits from a little more air in long-form prose.
+   Keep headings/navigation unchanged; avoid justified spacing on narrow screens. */
+.detail-page .prose p,
+.detail-page .prose li,
+.detail-page .prose blockquote {
+  text-align: start;
+  word-spacing: 0.085em;
+  letter-spacing: 0.006em;
+  font-kerning: normal;
+}
+
+/* KaTeX has its own mathematical spacing, which should not inherit prose tracking.
+   Inline formulae stay at text size; long display equations scroll rather than clip. */
+.detail-page .prose .katex {
+  font-size: 1em;
+  letter-spacing: normal;
+  word-spacing: normal;
+}
+.detail-page .prose .katex-display {
+  overflow-x: auto;
+  max-width: 100%;
+  padding: 0.65em 0.12em;
+  margin: 1.35em 0;
+  scrollbar-width: thin;
+}
+.detail-page .prose .katex-display > .katex { font-size: 1.06em; }
+
+@media (max-width: 720px) {
+  .detail-page .prose .katex-display > .katex { font-size: 1em; }
+}
