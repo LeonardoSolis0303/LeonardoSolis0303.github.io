@@ -58,6 +58,36 @@
 .detail-page .detail-meta { margin-top: 24px; row-gap: 8px; }
 .detail-page .cover-figure img { width: 100%; height: auto; }
 
+/* Keep captions close to their image and readable at both screen sizes. */
+.detail-page .prose figure {
+  width: fit-content;
+  max-width: 100%;
+  margin: 1.5em 0;
+}
+.detail-page .prose figure img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 0;
+}
+.detail-page .prose figcaption,
+.detail-page .cover-figure figcaption {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 14px;
+  line-height: 1.55;
+  font-style: normal;
+  letter-spacing: normal;
+  word-spacing: normal;
+  text-align: start;
+  color: var(--ink-soft);
+  margin-top: 10px;
+}
+
+/* Upright long quotations; a simpler serif for short italic emphasis. */
+.detail-page .prose blockquote { font-style: normal; }
+.detail-page .prose blockquote > :last-child { margin-bottom: 0; }
+.detail-page .prose em { font-family: Georgia, "Times New Roman", serif; }
+
 @media (max-width: 720px) {
   .page-body.detail-page { padding: 28px 22px 56px; }
   .detail-page .detail-title { margin-bottom: 24px; }

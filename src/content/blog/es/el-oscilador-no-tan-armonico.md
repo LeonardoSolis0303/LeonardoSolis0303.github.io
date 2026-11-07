@@ -1,6 +1,6 @@
 ---
 title: "El oscilador no tan armónico"
-description: "Sobre el éxito, el agotamiento, el fracaso y la importancia de seguir adelante."
+description: '"El exceso y la sed desenfrenada de éxito te llevarán a la mediocridad y al conformismo". —No sé'
 date: "2026-11-03"
 time: "08:38"
 lang: "es"
@@ -11,9 +11,9 @@ featured: false
 draft: false
 ---
 
-> «El exceso, el desenfrenamiento por la sed de éxito, te llevará a la mediocridad, te dejará en el conformismo». —No sé
+> "El exceso, el desenfrenamiento por la sed de éxito, te llevará a la mediocridad, te dejará en el conformismo". —No sé
 
-*Nota: Soy consciente de que esta entrada todavía tiene problemas de redacción y continuidad. La publico como un primer borrador, con la intención de volver a ella y trabajar esos aspectos en una versión posterior.*
+Esta entrada es un borrador ya casi completo, pero que SÍ pretendo actualizar con un segundo draft para arreglar el tema de continuidad y otros detalles.
 
 Sí creo que, siempre y cuando uno se mantenga en movimiento, el cambio forma parte fundamental de la experiencia humana, tanto el positivo como el negativo. Todas las *n* dimensiones que nos componen tienen una suerte de ciclo que es tan natural como el paso del tiempo: del bienestar al malestar, de la insatisfacción al éxito, de la autorrealización a la crisis. Entender esos ciclos y contemplar su eventual fin constituye una de las grandes lecciones de la breve ventana de nuestra existencia, en mi opinión.
 
@@ -40,7 +40,7 @@ Era indestructible. Todo lo que se puso en mi contra lo terminé aplastando. Pas
 
 Yo era invencible y vencería todo lo que se pusiera en medio. Tal vez ese fue mi error (no realmente, pero ajá): la *hybris* tan mentada, lo que ocasionó que diera el salto desde el acantilado: trabajar y meter seis materias de física en la universidad.
 
-Por ahí he de tener mi horario: un horario de 14 horas diarias de trabajo sostenido como *baseline*, con un «descanso» de seis horas el domingo, y ya. Era tan soberbio que, para completar todas las tareas, a ese mínimo indispensable le faltaban al menos 20 horas a la semana. Creí que podría hacer todo como ya lo había hecho antes: más rápido y mejor.
+Por ahí he de tener mi horario: un horario de 14 horas diarias de trabajo sostenido como *baseline*, con un "descanso" de seis horas el domingo, y ya. Era tan soberbio que, para completar todas las tareas, a ese mínimo indispensable le faltaban al menos 20 horas a la semana. Creí que podría hacer todo como ya lo había hecho antes: más rápido y mejor.
 
 Quien les diga que trabaja las famosas *100+ hours* a la semana es un absoluto *larper wannabe* que les está mintiendo en la cara. No hay manera de trabajar cerca de esa cantidad de horas de manera seria sin perder la cabeza en menos de un par de meses, simplemente no la hay, especialmente cuando las labores son altamente demandantes cognitivamente.
 
@@ -50,9 +50,9 @@ Para ese momento ya tenía un par de frustraciones quejumbrosas. Me hubiera enca
 
 En realidad, no es extraño que quien no matiza sus posturas y cae en extremismos a menudo vea su postura hecha trizas por la realidad. Por eso no es irónico ni inesperado que haya fracasado.
 
-Yo fallé porque quería romper mi límite y sí, lo rompí, pero ¿a qué costo? Ni siquiera puedo decir que haga uso efectivo de ese «límite nuevo» que «adquirí»; no se deja ver por ningún lado. Haberme obsesionado con ser el mejor y con conquistarlo todo me ha hecho una suerte de acólito de la comodidad. Salir de la caja se siente extremadamente peligroso hoy; sin duda perdí la confianza.
+Yo fallé porque quería romper mi límite y sí, lo rompí, pero ¿a qué costo? Ni siquiera puedo decir que haga uso efectivo de ese "límite nuevo" que "adquirí"; no se deja ver por ningún lado. Haberme obsesionado con ser el mejor y con conquistarlo todo me ha hecho una suerte de acólito de la comodidad. Salir de la caja se siente extremadamente peligroso hoy; sin duda perdí la confianza.
 
-Quedé incapacitado durante meses, casi tanto tiempo como el que estuve trabajando de esa manera. Hoy todavía tengo conflicto en reconocerlo como una «etapa de crecimiento». Honestamente, no sé si en mi caso, en mi realidad material, era así de indispensable someterme a esa miseria con tal de «crecer».
+Quedé incapacitado durante meses, casi tanto tiempo como el que estuve trabajando de esa manera. Hoy todavía tengo conflicto en reconocerlo como una "etapa de crecimiento". Honestamente, no sé si en mi caso, en mi realidad material, era así de indispensable someterme a esa miseria con tal de "crecer".
 
 Me cansé. Simple y llanamente me cansé. Me cansé absolutamente, de pararme de la cama, de agarrar un lápiz, de tener un pensamiento ligeramente elaborado.
 
