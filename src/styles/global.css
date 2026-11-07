@@ -5,24 +5,25 @@
 @font-face { font-family: 'Source Sans 3'; src: url('/fonts/source-sans-3-latin-wght-normal.woff2') format('woff2'); font-style: normal; font-weight: 200 900; font-display: swap; }
 
 :root {
-  --bg: #f5f2e9;
-  --surface: #edeadf;
+  --bg: #e7e3dc;
+  --surface: #ded8ce;
+  --sidebar-bg: #c4b39f;
   --bg-dark: #191e19;
   --bg-darker: #131813;
   --cream: #f5f2e9;
   --cream-dim: #d2d8cf;
   --green-light: #b3ccb4;
-  --ink: #262b24;
-  --ink-soft: #343a31;
-  --dim: #606457;
+  --ink: #2c2925;
+  --ink-soft: #3e3933;
+  --dim: #625b53;
   --moss: #526b53;
   --moss-deep: #30583d;
   --cafe: #744e38;
   --terracota: #744e38;
   --panel: #262e27;
   --panel-text: #f5f2e9;
-  --rule: #d8dbcf;
-  --rule-strong: #aeb7a7;
+  --rule: #ccc5ba;
+  --rule-strong: #aaa092;
   --font-serif: 'EB Garamond', Georgia, serif;
   --font-text: 'Source Serif 4', Georgia, serif;
   --font-ui: 'Source Sans 3', system-ui, sans-serif;
@@ -50,7 +51,7 @@ ul, ol { list-style: none; }
 .app--reading { display: block; }
 
 /* Quiet navigation around the page, with a native disclosure on small screens. */
-.sidebar { width: var(--sidebar-w); flex-shrink: 0; border-right: 1px solid var(--rule); padding: 36px 20px; display: flex; flex-direction: column; gap: 30px; background: var(--surface); font-family: var(--font-ui); }
+.sidebar { --ink-soft: #44392f; --dim: #4c4035; --moss-deep: #294a33; --rule: #ad9b85; width: var(--sidebar-w); flex-shrink: 0; border-right: 1px solid var(--rule); padding: 36px 20px; display: flex; flex-direction: column; gap: 30px; background: var(--sidebar-bg); font-family: var(--font-ui); }
 .sidebar__brand { display: block; }
 .sidebar__monogram { font: 500 34px/1 var(--font-serif); color: var(--moss-deep); }
 .sidebar__name { margin-top: 9px; font-size: 14px; color: var(--ink-soft); }
@@ -131,7 +132,7 @@ ul, ol { list-style: none; }
 .site-footer a:hover { text-decoration: underline; text-underline-offset: 4px; }
 @media (max-width: 720px) {
   .app { display: block; }
-  .sidebar { width: 100%; border-right: 0; border-bottom: 1px solid var(--rule); padding: 14px 22px; display: flex; flex-direction: row; align-items: center; gap: 18px; position: relative; }
+  .sidebar { --ink-soft: #44392f; --dim: #4c4035; --moss-deep: #294a33; --rule: #ad9b85; width: 100%; border-right: 0; border-bottom: 1px solid var(--rule); padding: 14px 22px; display: flex; flex-direction: row; align-items: center; gap: 18px; position: relative; }
   .sidebar__brand { display: flex; align-items: baseline; gap: 9px; margin-right: auto; }
   .sidebar__monogram { font-size: 29px; }
   .sidebar__name { margin: 0; font-size: 14px; }

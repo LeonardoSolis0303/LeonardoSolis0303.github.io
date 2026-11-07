@@ -6,11 +6,10 @@ import { getEntries, entryUrl } from '../../../lib/publications';
 const lang = 'es'; const ui=t(lang);
 const entries = await getEntries('quant',lang);
 ---
-<Base lang="es" title={ui.quant.title + ' — Leonardo Solis'} description={ui.quant.subtitle}
+<Base lang="es" title={ui.quant.title + ' — Leonardo Solis'} description={ui.quant.title + ' — Leonardo Solis'}
  canonical="/es/quant/" alternateUrl="/en/quant/">
-<header class="page-header"><h1 class="page-title">{ui.quant.title}</h1><p class="page-subtitle">{ui.quant.subtitle}</p></header>
+<header class="page-header"><h1 class="page-title">{ui.quant.title}</h1></header>
 <div class="page-body">
-<p class="section-intro">{ui.quant.intro}</p>
 <div class="card-list quant-list">{entries.map((p)=><a href={entryUrl('quant',p)} class="content-card quant-card">
 <div class="card-meta"><span>{p.data.period}</span><span>·</span><span>{p.data.organization}</span></div>
 <h2>{p.data.title}</h2><p>{p.data.description}</p>
