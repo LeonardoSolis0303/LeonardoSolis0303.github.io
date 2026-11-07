@@ -9,21 +9,20 @@ const { lang } = Astro.props;
 const ui = t(lang);
 const posts = await getPosts(lang);
 const otherLang = lang === 'es' ? 'en' : 'es';
-const cats = ['fisica', 'quant', 'matematicas', 'mercados', 'personal'] as const;
+const cats = [...new Set(posts.map(p => p.data.category))];
 ---
 
 <Base lang={lang} title={ui.blog.title + ' — Leonardo Solis'} description={ui.blog.subtitle}
   canonical={routes[lang].blog} alternateUrl={routes[otherLang].blog}>
   <header class="page-header">
-    <div class="kicker">{ui.blog.title}</div>
     <h1 class="page-title">{ui.blog.title}</h1>
     <p class="page-subtitle">{ui.blog.subtitle}</p>
   </header>
   <div class="page-body">
-    <div class="filterbar" data-filter-group>
+    {posts.length >= 6 && cats.length > 1 && <div class="filterbar" data-filter-group hidden>
       <button class="filter-btn is-active" data-filter="all">{ui.blog.all}</button>
       {cats.map((category) => <button class="filter-btn" data-filter={category}>{ui.blog.cats[category]}</button>)}
-    </div>
+    </div>}
     <div class="entry-list">
       {posts.map((post) => (
         <a href={postUrl(post)} class:list={['entry', { 'entry--with-image': post.data.image }]} data-filter-item={post.data.category}>
@@ -41,7 +40,7 @@ const cats = ['fisica', 'quant', 'matematicas', 'mercados', 'personal'] as const
         </a>
       ))}
     </div>
-    {posts.length === 0 && <p>{ui.common.empty}</p>}
+    {posts.length === 0 && <p class="empty-state">{ui.common.empty}</p>}
   </div>
   <script src="/filter.js" is:inline></script>
 </Base>

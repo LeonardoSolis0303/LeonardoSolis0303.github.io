@@ -1,0 +1,19 @@
+---
+import { routes, t, type Lang } from '../lib/i18n';
+interface Props { lang: Lang; }
+const { lang } = Astro.props;
+const r = routes[lang];
+const ui = t(lang);
+const path = Astro.url.pathname;
+const norm = (s: string) => s.replace(/\/$/, '') || '/';
+const items = [
+  ['home', ui.nav.home], ['cv', ui.nav.cv], ['research', ui.nav.research],
+  ['quant', ui.nav.quant], ['teaching', ui.nav.teaching], ['reviews', ui.nav.reviews], ['blog', ui.nav.blog], ['contact', ui.nav.contact],
+] as const;
+const active = (href: string) => href === r.home
+  ? norm(path) === norm(href) || (lang === 'en' && path === '/')
+  : norm(path) === norm(href) || path.startsWith(href);
+---
+<div class="menu-panel">
+  {items.map(([key,label]) => <a href={r[key]} aria-current={active(r[key]) ? 'page' : undefined}>{label}</a>)}
+</div>

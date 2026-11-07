@@ -1,6 +1,7 @@
 ---
 import { t, routes, type Lang } from '../lib/i18n';
 import { data } from '../lib/site';
+import SiteMenu from './SiteMenu.astro';
 
 interface Props { lang: Lang; variant?: 'dark' | 'light'; altUrl?: string; }
 const { lang, variant = 'light', altUrl } = Astro.props;
@@ -34,10 +35,14 @@ const sidebarClass = `sidebar${variant === 'dark' ? ' sidebar--dark' : ''}`;
 
   <div class="sidebar__nav">
     {navItems.map(item => (
-      <a href={item.href} class:list={['sidebar__link', { 'sidebar__link--active': isActive(item.href) }]}>{item.label}</a>
+      <a href={item.href} class:list={['sidebar__link', { 'sidebar__link--active': isActive(item.href) }]} aria-current={isActive(item.href) ? 'page' : undefined}>{item.label}</a>
     ))}
   </div>
 
+  <details class="sidebar__mobile">
+    <summary>{lang === 'es' ? 'Menú' : 'Menu'}</summary>
+    <SiteMenu lang={lang} />
+  </details>
   <div class="sidebar__footer">
     <a href="https://github.com/LeonardoSolis0303" class="sidebar__social" rel="me">GitHub</a>
     {data.CV.contact.linkedin && <a href={'https://' + data.CV.contact.linkedin} class="sidebar__social" rel="me">LinkedIn</a>}

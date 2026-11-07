@@ -1,0 +1,47 @@
+---
+import type { Lang } from '../lib/i18n';
+interface Props { lang: Lang; }
+const { lang } = Astro.props;
+---
+<dialog class="image-viewer" aria-label={lang === 'es' ? 'Imagen ampliada' : 'Expanded image'}>
+  <button class="image-viewer__close" type="button" autofocus>{lang === 'es' ? 'Cerrar' : 'Close'} <span aria-hidden="true">×</span></button>
+  <img alt="" />
+  <p></p>
+</dialog>
+<script>
+  const dialog = document.querySelector<HTMLDialogElement>('.image-viewer');
+  if (dialog && typeof dialog.showModal === 'function') {
+    const viewerImage = dialog.querySelector('img')!;
+    const caption = dialog.querySelector('p')!;
+    const close = dialog.querySelector<HTMLButtonElement>('button')!;
+    const spanish = document.documentElement.lang === 'es';
+    let opener: HTMLButtonElement | null = null;
+    document.querySelectorAll<HTMLImageElement>('.prose img, .cover-figure img').forEach(img => {
+      // Respect images already used as links and mathematical SVG/inline icons.
+      if (img.closest('a, button, .katex')) return;
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'image-expand';
+      button.setAttribute('aria-haspopup', 'dialog');
+      button.setAttribute('aria-label', (spanish ? 'Ampliar imagen: ' : 'Expand image: ') + (img.alt || (spanish ? 'fotografía' : 'photograph')));
+      img.replaceWith(button);
+      button.append(img);
+      button.addEventListener('click', () => {
+        opener = button;
+        viewerImage.src = img.currentSrc || img.src;
+        viewerImage.alt = img.alt;
+        caption.textContent = img.closest('figure')?.querySelector('figcaption')?.textContent || '';
+        caption.hidden = !caption.textContent;
+        dialog.showModal();
+        document.body.style.overflow = 'hidden';
+        close.focus();
+      });
+    });
+    close.addEventListener('click', () => dialog.close());
+    dialog.addEventListener('click', event => { if (event.target === dialog) {
+      const r = dialog.getBoundingClientRect();
+      if (event.clientX < r.left || event.clientX > r.right || event.clientY < r.top || event.clientY > r.bottom) dialog.close();
+    }});
+    dialog.addEventListener('close', () => { document.body.style.overflow = ''; opener?.focus(); });
+  }
+</script>

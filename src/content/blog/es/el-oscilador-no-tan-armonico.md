@@ -23,7 +23,7 @@ Gané un concurso internacional como primera figura (creo que solo desde mi pers
 
 Me mudé a un mejor departamento, o cuarto, mejor dicho, que, teniendo en cuenta que me había independizado abruptamente seis meses antes, fue un cambio increíble. En un principio llegué de emergencia a uno de esos cuartos inhumanos que bien podrían aparecer en la cápsula de N+ ([*Cómo viven los foráneos en CDMX*](https://www.youtube.com/watch?v=pQwEcaQTu4A)). Vaya, hasta podría decir que los cuartos que SÍ salieron en la cápsula estaban mejor equipados y eran más grandes que el pedazo de cocina al que le pusieron una pared de tablarroca y en el que, con pura terquedad, lograron meter una cama (quién sabe cómo) para disque llamarlo cuarto. No soy religioso, pero sin duda rezaría por las almas en pena que, por necesidad, lleguen a caer ahí. Adjuntaré una foto del lugar.
 
-<figure>
+<figure class="figure-portrait">
   <img src="/assets/cuarto-2025.webp" alt="Fotografía de mi primer cuarto, con una cama y una ventana" loading="lazy" decoding="async" />
   <figcaption>Ok, no se ve TAN mal, hasta eso cozy, pero les juro que ese es TODO el cuarto, no hay nada más JAJAJ.</figcaption>
 </figure>
@@ -84,7 +84,7 @@ Transitar estos caminos evoca aquella hoja en el río, que avanza comprendiendo 
 
 Vivo la lección más grande de la vida: siempre vale la pena volver a empezar, una y mil veces, mientras uno esté vivo.
 
-<figure>
+<figure class="figure-small">
   <img src="/assets/HopeJack.jpg" alt="HopeJack" loading="lazy" decoding="async" />
   <figcaption>yo</figcaption>
 </figure>

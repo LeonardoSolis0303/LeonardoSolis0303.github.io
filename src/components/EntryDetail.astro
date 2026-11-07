@@ -2,6 +2,8 @@
 import { render, type CollectionEntry } from 'astro:content';
 import 'katex/dist/katex.min.css';
 import Base from '../layouts/Base.astro';
+import ArticleToc from './ArticleToc.astro';
+import ArticleTools from './ArticleTools.astro';
 import { t, formatDate } from '../lib/i18n';
 import { lineClass, reviewCatClass, statusLabel, statusInfo } from '../lib/site';
 import { alternateEntryUrl, entryUrl, researchLine, reviewCategory, type PublicationSection } from '../lib/publications';
@@ -14,7 +16,7 @@ const { entry, section } = Astro.props;
 const d = entry.data as any;
 const lang = d.lang as 'es' | 'en';
 const ui = t(lang);
-const { Content } = await render(entry);
+const { Content, headings } = await render(entry);
 const alternateUrl = await alternateEntryUrl(section, entry as any);
 const backUrl = entryUrl(section, { data: { lang, slug: '' } }).replace(/\/\/$/, '/');
 const canonical = entryUrl(section, { data: { lang, slug: d.slug } });
@@ -59,7 +61,12 @@ const tags = section === 'quant' ? d.stack : d.tags;
     {section === 'teaching' && (d.period || d.year || d.category) && <p class="detail-desc">{[d.period || d.year, d.category].filter(Boolean).join(' · ')}</p>}
     {d.updated && <p class="post-updated">{lang === 'es' ? 'Actualizado' : 'Updated'}: {formatDate(d.updated, lang)}</p>}
     {d.image && <figure class="cover-figure"><img src={d.image} alt={d.imageAlt} />{d.caption && <figcaption>{d.caption}</figcaption>}</figure>}
+    <ArticleToc lang={lang} headings={headings} />
     <div class="prose"><Content /></div>
     {tags?.length > 0 && <ul class="post-tags">{tags.map((tag: string) => <li>{tag}</li>)}</ul>}
+    <nav class="article-footer" aria-label={lang === 'es' ? 'Navegación de la entrada' : 'Article navigation'}>
+      <a class="back-link" href={backUrl}>{backLabel}</a>
+    </nav>
   </article>
+  <ArticleTools lang={lang} />
 </Base>

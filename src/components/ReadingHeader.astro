@@ -1,0 +1,21 @@
+---
+import { routes, t, type Lang } from '../lib/i18n';
+import SiteMenu from './SiteMenu.astro';
+interface Props { lang: Lang; alternateUrl?: string; }
+const { lang, alternateUrl } = Astro.props;
+const ui = t(lang);
+const other = lang === 'es' ? 'en' : 'es';
+const section = (['blog', 'reviews', 'research', 'quant', 'teaching'] as const)
+  .find(key => Astro.url.pathname.startsWith(routes[lang][key])) || 'blog';
+---
+<header class="reading-header">
+  <nav class="reading-header__inner" aria-label={lang === 'es' ? 'Navegación principal' : 'Main navigation'}>
+    <a class="reading-brand" href={routes[lang].home}><strong>L.S.</strong><span>Leonardo Solis</span></a>
+    <a class="reading-header__index" href={routes[lang][section]}>{ui.nav[section]}</a>
+    <details class="reading-menu">
+      <summary>{lang === 'es' ? 'Secciones' : 'Sections'}</summary>
+      <SiteMenu lang={lang} />
+    </details>
+    <a class="reading-header__index-language" href={alternateUrl || routes[other].home} lang={other} title={alternateUrl ? ui.common.switchLang : (lang === 'es' ? 'Inicio en inglés' : 'Spanish home')}>{other.toUpperCase()}</a>
+  </nav>
+</header>

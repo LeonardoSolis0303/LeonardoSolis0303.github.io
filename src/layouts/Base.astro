@@ -2,6 +2,8 @@
 import '../styles/global.css';
 import '../styles/reading.css';
 import Sidebar from '../components/Sidebar.astro';
+import ReadingHeader from '../components/ReadingHeader.astro';
+import { routes, t } from '../lib/i18n';
 import SEO from '../components/SEO.astro';
 import { type Lang } from '../lib/i18n';
 
@@ -43,7 +45,7 @@ const {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="theme-color" content={variant === 'dark' ? '#100f0d' : '#d4cdb8'} />
+    <meta name="theme-color" content="#f5f2e9" />
 
     <SEO
       title={title}
@@ -59,10 +61,17 @@ const {
     />
   </head>
   <body class={bodyClass}>
-    <div class:list={['app', { 'app--dark': variant === 'dark' }]}>
-      <Sidebar lang={lang} variant={variant} altUrl={alternateUrl} />
-      <main class="main">
+    <a class="skip-link" href="#main-content">{lang === 'es' ? 'Saltar al contenido' : 'Skip to content'}</a>
+    <div class:list={['app', { 'app--reading': type === 'article' }]}>
+      {type === 'article' && <ReadingHeader lang={lang} alternateUrl={alternateUrl} />}
+      {type !== 'article' && <Sidebar lang={lang} altUrl={alternateUrl} />}
+      <main class="main" id="main-content" tabindex="-1">
         <slot />
+        <footer class="site-footer"><div class="site-footer__inner">
+          <span>Leonardo Solis</span>
+          <a href={routes[lang].contact}>{t(lang).nav.contact}</a>
+          <a href="https://github.com/LeonardoSolis0303" rel="me">GitHub</a>
+        </div></footer>
       </main>
     </div>
   </body>

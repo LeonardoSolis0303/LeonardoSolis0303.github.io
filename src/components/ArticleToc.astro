@@ -1,0 +1,13 @@
+---
+import type { MarkdownHeading } from 'astro';
+import type { Lang } from '../lib/i18n';
+interface Props { lang: Lang; headings: MarkdownHeading[]; }
+const { lang, headings } = Astro.props;
+const sections = headings.filter(heading => heading.depth === 2);
+---
+{sections.length >= 3 && <details class="article-toc">
+  <summary>{lang === 'es' ? 'En esta entrada' : 'In this article'}</summary>
+  <nav aria-label={lang === 'es' ? 'Índice de la entrada' : 'Article contents'}>
+    <ul>{sections.map(h => <li><a href={'#' + h.slug}>{h.text}</a></li>)}</ul>
+  </nav>
+</details>}

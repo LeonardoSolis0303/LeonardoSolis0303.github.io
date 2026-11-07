@@ -35,7 +35,8 @@ try {
   run(['scripts/new-post.mjs', publishedSlug, 'es', 'No sobrescribir'], false);
   assert.equal(await readFile(file(publishedSlug), 'utf8'), before);
   run(['scripts/new-post.mjs', '../fuera-de-la-carpeta', 'es'], false);
-  await writeFile(file(publishedSlug), before.replace('draft: true', 'draft: false'));
+  const sections = '\n\n## Primera sección de prueba\n\nTexto.\n\n## Segunda sección de prueba\n\nTexto.\n\n## Tercera sección de prueba\n\nTexto.\n';
+  await writeFile(file(publishedSlug), before.replace('draft: true', 'draft: false') + sections);
   build();
   const html = await readFile(join(testRoot, 'dist/es/bitacora/' + publishedSlug + '/index.html'), 'utf8');
   assert(html.includes('class="katex"'), 'Inline math was not rendered.');
@@ -44,11 +45,14 @@ try {
   assert(!html.includes('katex-error'), 'A template equation failed.');
   assert(!html.includes('hreflang="en"'), 'Untranslated article advertises an English translation.');
   assert(html.includes('<ul>') && html.includes('<strong>'), 'Markdown formatting is missing.');
+  assert(html.includes('class="article-toc"'), 'Long articles should include a contents disclosure.');
+  assert(html.includes('href="#primera-sección-de-prueba"'), 'Contents links should use the generated heading IDs.');
+  assert(html.includes('class="article-footer__next"'), 'Published articles should offer another published entry.');
   await assert.rejects(access(join(testRoot, 'dist/es/bitacora/' + draftSlug + '/index.html')));
   for (const path of ['dist/sitemap.xml', 'dist/index.html', 'dist/es/index.html', 'dist/es/bitacora/index.html']) {
     assert(!(await readFile(join(testRoot, path), 'utf8')).includes(draftSlug), 'Draft leaked into ' + path);
   }
-  console.log('Passed: post creation, overwrite/path protection, Markdown, inline/display math, MathML, drafts and missing translations.');
+  console.log('Passed: post creation, overwrite/path protection, Markdown, inline/display math, MathML, contents links, reading navigation, drafts and missing translations.');
 } finally {
   await rm(testRoot, { recursive: true, force: true });
 }

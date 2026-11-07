@@ -2,16 +2,21 @@
 import { render } from 'astro:content';
 import 'katex/dist/katex.min.css';
 import Base from '../layouts/Base.astro';
+import ArticleToc from './ArticleToc.astro';
+import ArticleTools from './ArticleTools.astro';
 import { t, formatDate, routes } from '../lib/i18n';
 import { catClass } from '../lib/site';
-import { alternatePostUrl, postUrl, readingMinutes, type Post } from '../lib/blog';
+import { alternatePostUrl, postUrl, readingMinutes, getPosts, type Post } from '../lib/blog';
 
 interface Props { post: Post; }
 const { post } = Astro.props;
 const { lang, title, description, date, time, updated, category, featured, draft, image, imageAlt, caption, tags } = post.data;
 const ui = t(lang);
-const { Content } = await render(post);
+const { Content, headings } = await render(post);
 const alternateUrl = await alternatePostUrl(post);
+const posts = await getPosts(lang, false);
+const postIndex = posts.findIndex(p => p.id === post.id);
+const nextPost = postIndex >= 0 ? (posts[postIndex + 1] || posts[postIndex - 1]) : undefined;
 ---
 
 <Base lang={lang} title={title + ' — Leonardo Solis'} description={description}
@@ -29,7 +34,15 @@ const alternateUrl = await alternatePostUrl(post);
     <h1 class="detail-title">{title}</h1>
     {updated && <p class="post-updated">{lang === 'es' ? 'Actualizado' : 'Updated'}: <time datetime={updated.toISOString().slice(0, 10)}>{formatDate(updated, lang)}</time></p>}
     {image && <figure class="cover-figure"><img src={image} alt={imageAlt} />{caption && <figcaption>{caption}</figcaption>}</figure>}
+    <ArticleToc lang={lang} headings={headings} />
     <div class="prose"><Content /></div>
     {tags.length > 0 && <ul class="post-tags" aria-label={lang === 'es' ? 'Etiquetas' : 'Tags'}>{tags.map((tag) => <li>{tag}</li>)}</ul>}
+    <nav class="article-footer" aria-label={lang === 'es' ? 'Más lecturas' : 'More reading'}>
+      <a class="back-link" href={routes[lang].blog}>{ui.blog.back}</a>
+      {nextPost && <a class="article-footer__next" href={postUrl(nextPost)}>
+        <span>{lang === 'es' ? 'Seguir leyendo' : 'Continue reading'}</span><strong>{nextPost.data.title} →</strong>
+      </a>}
+    </nav>
   </article>
+  <ArticleTools lang={lang} />
 </Base>

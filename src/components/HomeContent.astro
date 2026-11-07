@@ -13,10 +13,9 @@ const recentPosts = posts.slice(0,3);
 const featuredResearch = (await getEntries('research',lang)).slice(0,3);
 const featuredQuant = (await getEntries('quant',lang)).slice(0,2);
 const shortcuts = [
-  ...(latest ? [{ label: ui.home.latestPost, sub: formatDate(latest.data.date, lang), href: postUrl(latest) }] : []),
-  { label: ui.home.mathComps, sub: null, href: `${r.teaching}#problemas` },
-  { label: ui.home.problems, sub: null, href: `${r.teaching}#problemas` },
-  { label: ui.home.classes, sub: null, href: `${r.teaching}#presenciales` },
+  ...(latest ? [{ label: ui.home.latestPost, href: postUrl(latest) }] : []),
+  { label: ui.nav.teaching, href: r.teaching },
+  { label: lang === 'es' ? 'Ver CV' : 'View CV', href: r.cv },
 ];
 ---
 
@@ -37,46 +36,44 @@ const shortcuts = [
         <div class="home__blurb-eyebrow">{ui.home.aboutLabel}</div>
         <p class="home__blurb">{ui.home.blurb}</p>
       </div>
-      <div>
+      <div class="home__shortcuts">
         <div class="home__blurb-eyebrow">{ui.home.shortcuts}</div>
         {shortcuts.map(s => (
           <a href={s.href} class="home__shortcut">
             <span class="home__shortcut-left">{s.label}</span>
-            {s.sub && <span class="home__shortcut-sub">{s.sub}</span>}
           </a>
         ))}
-        <a href={r.cv} class="btn-outline btn-outline--dark home__cv">{lang === 'es' ? 'Ver CV' : 'View CV'}</a>
       </div>
     </div>
 
-    <section class="home__section">
-      <div class="home__section-title"><span>{ui.home.recentPosts}</span><a href={r.blog}>{ui.home.seeAll} →</a></div>
+    {recentPosts.length > 0 && <section class="home__section">
+      <div class="home__section-title"><h2>{ui.home.recentPosts}</h2><a href={r.blog}>{ui.home.seeAll} →</a></div>
       {recentPosts.map(p => (
         <a href={postUrl(p)} class="home__entry">
           <div class="home__entry-date"><time datetime={p.data.date.toISOString().slice(0,10)}>{formatDate(p.data.date, lang)}</time></div>
           <div><div class="home__entry-title">{p.data.featured ? '★ ' : ''}{p.data.title}{p.data.draft && ' · ' + (lang === 'es' ? 'Borrador' : 'Draft')}</div><p class="home__entry-desc">{p.data.description}</p></div>
         </a>
       ))}
-    </section>
+    </section>}
 
-    <section class="home__section">
-      <div class="home__section-title"><span>{ui.home.featuredResearch}</span><a href={r.research}>{ui.home.seeAll} →</a></div>
+    {featuredResearch.length > 0 && <section class="home__section">
+      <div class="home__section-title"><h2>{ui.home.featuredResearch}</h2><a href={r.research}>{ui.home.seeAll} →</a></div>
       {featuredResearch.map(p => (
         <a href={entryUrl('research',p)} class="home__entry">
           <div class="home__entry-date">{researchLine(p.data.line,lang)}</div>
           <div><div class="home__entry-title">{p.data.title}</div><p class="home__entry-desc">{p.data.description}</p></div>
         </a>
       ))}
-    </section>
+    </section>}
 
-    <section class="home__section">
-      <div class="home__section-title"><span>{ui.home.featuredQuant}</span><a href={r.quant}>{ui.home.seeAll} →</a></div>
+    {featuredQuant.length > 0 && <section class="home__section">
+      <div class="home__section-title"><h2>{ui.home.featuredQuant}</h2><a href={r.quant}>{ui.home.seeAll} →</a></div>
       {featuredQuant.map(p => (
         <a href={entryUrl('quant',p)} class="home__entry">
           <div class="home__entry-date">{p.data.period}</div>
           <div><div class="home__entry-title">{p.data.title}</div><p class="home__entry-desc">{p.data.description}</p></div>
         </a>
       ))}
-    </section>
+    </section>}
   </div>
 </div>

@@ -8,17 +8,18 @@ const entries = await getEntries('reviews',lang);
 ---
 <Base lang="es" title={ui.reviews.title + ' — Leonardo Solis'} description={ui.reviews.subtitle}
  canonical="/es/resenas/" alternateUrl="/en/reviews/">
-<header class="page-header"><div class="kicker">reviews</div><h1 class="page-title">{ui.reviews.title}</h1><p class="page-subtitle">{ui.reviews.subtitle}</p></header>
+<header class="page-header"><h1 class="page-title">{ui.reviews.title}</h1><p class="page-subtitle">{ui.reviews.subtitle}</p></header>
 <div class="page-body">
-<div class="filterbar" data-filter-group>
+{entries.length >= 6 && new Set(entries.map(p => p.data.category)).size > 1 && <div class="filterbar" data-filter-group hidden>
 <button class="filter-btn is-active" data-filter="all">{ui.reviews.all}</button>
-<button class="filter-btn" data-filter="noficcion">{ui.reviews.nonfiction}</button>
-<button class="filter-btn" data-filter="ciencias">{ui.reviews.science}</button>
-<button class="filter-btn" data-filter="ficcion">{ui.reviews.fiction}</button></div>
+{[...new Set(entries.map(p => p.data.category))].map(category => <button class="filter-btn" data-filter={category}>{reviewCategory(category, lang)}</button>)}
+</div>}
 <div class="card-list review-grid">{entries.map((p) => <a href={entryUrl('reviews',p)} class="content-card review-card" data-filter-item={p.data.category}>
-<div class="card-meta"><span class:list={['chip',reviewCatClass(p.data.category)]}>{reviewCategory(p.data.category,lang)}</span><span>{ui.reviews.status[p.data.status]}</span><span>·</span><span>{ui.reviews.score}: {p.data.score}/10</span></div>
-<h2>{p.data.title}</h2><p>{p.data.description}</p><div class="review-author">{p.data.author} · {p.data.year}</div></a>)}</div>
-{entries.length===0 && <p>{ui.common.empty}</p>}
+<div><div class="card-meta"><span class:list={['chip',reviewCatClass(p.data.category)]}>{reviewCategory(p.data.category,lang)}</span></div>
+<h2>{p.data.title}</h2><div class="review-author">{p.data.author} · {p.data.year}</div><p>{p.data.description}</p></div>
+<div class="review-score" aria-label={`${ui.reviews.score}: ${p.data.score}/10`}>{p.data.score}<small>/10</small><span>{ui.reviews.status[p.data.status]}</span></div>
+</a>)}</div>
+{entries.length===0 && <p class="empty-state">{ui.common.empty}</p>}
 </div>
 <script src="/filter.js" is:inline></script>
 </Base>

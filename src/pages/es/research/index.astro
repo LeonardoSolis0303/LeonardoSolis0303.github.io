@@ -8,17 +8,17 @@ const entries = await getEntries('research',lang);
 ---
 <Base lang="es" title={ui.research.title + ' — Leonardo Solis'} description={ui.research.subtitle}
  canonical="/es/research/" alternateUrl="/en/research/">
-<header class="page-header"><div class="kicker">research</div><h1 class="page-title">{ui.research.title}</h1><p class="page-subtitle">{ui.research.subtitle}</p></header>
+<header class="page-header"><h1 class="page-title">{ui.research.title}</h1><p class="page-subtitle">{ui.research.subtitle}</p></header>
 <div class="page-body">
-<div class="filterbar" data-filter-group>
+{entries.length >= 6 && new Set(entries.map(p => p.data.line)).size > 1 && <div class="filterbar" data-filter-group hidden>
 <button class="filter-btn is-active" data-filter="all">{ui.research.all}</button>
-<button class="filter-btn" data-filter="experimental">{ui.research.lab}</button>
-<button class="filter-btn" data-filter="teorico">{ui.research.theory}</button></div>
+{[...new Set(entries.map(p => p.data.line))].map(line => <button class="filter-btn" data-filter={line}>{researchLine(line, lang)}</button>)}
+</div>}
 <div class="card-list">{entries.map((p) => <a href={entryUrl('research',p)} class="research-card content-card" data-filter-item={p.data.line}>
 <div class="card-meta"><span class:list={['chip',lineClass(p.data.line)]}>{researchLine(p.data.line,lang)}</span><span class:list={['status-pill',statusInfo[p.data.status]?.cls]}>{statusLabel(p.data.status,lang)}</span></div>
 <h2>{p.data.title}</h2><p>{p.data.description}</p><div class="tag-row">{p.data.tags.map((tag)=><span>{tag}</span>)}</div>
 </a>)}</div>
-{entries.length===0 && <p>{ui.common.empty}</p>}
+{entries.length===0 && <p class="empty-state">{ui.common.empty}</p>}
 </div>
 <script src="/filter.js" is:inline></script>
 </Base>
